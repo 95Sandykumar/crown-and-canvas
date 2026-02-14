@@ -1,0 +1,46 @@
+import { Testimonial } from "@/types";
+
+export const TESTIMONIALS: Testimonial[] = [
+  {
+    name: "Sarah M.",
+    petName: "Max",
+    petType: "Golden Retriever",
+    quote: "I ordered a Renaissance King portrait of Max for my husband's birthday. When he opened it, he literally cried happy tears. The quality is incredible!",
+    rating: 5,
+  },
+  {
+    name: "James T.",
+    petName: "Luna",
+    petType: "Tabby Cat",
+    quote: "Luna as an Empress is now the centerpiece of our living room. Everyone who visits asks about it. Best purchase I've made this year!",
+    rating: 5,
+  },
+  {
+    name: "Emily R.",
+    petName: "Buddy",
+    petType: "French Bulldog",
+    quote: "The General portrait of Buddy is absolutely hilarious and beautifully done. The attention to detail is amazing. Already ordering one for my sister's dog.",
+    rating: 5,
+  },
+  {
+    name: "Michael K.",
+    petName: "Whiskers",
+    petType: "Persian Cat",
+    quote: "I was skeptical at first, but the final portrait blew me away. Whiskers looks like true royalty. Fast delivery too!",
+    rating: 5,
+  },
+  {
+    name: "Lisa P.",
+    petName: "Cooper",
+    petType: "Labrador",
+    quote: "Ordered the Astronaut style for Cooper and it's beyond what I imagined. The canvas quality is museum-grade. Already planning my next order!",
+    rating: 5,
+  },
+  {
+    name: "David S.",
+    petName: "Bella",
+    petType: "Dachshund",
+    quote: "We got a memorial portrait of our beloved Bella as a Princess. It captures her spirit perfectly. This means the world to our family.",
+    rating: 5,
+  },
+];
