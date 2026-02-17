@@ -18,6 +18,7 @@ export interface PortraitStyle {
   petTypes: PetType[];
   popular: boolean;
   characterTitle: string;
+  prompt: string;
 }
 
 export interface ProductTier {
@@ -77,4 +78,6 @@ export interface Testimonial {
   petType: string;
   quote: string;
   rating: number;
+  petImage?: string;
+  styleName?: string;
 }

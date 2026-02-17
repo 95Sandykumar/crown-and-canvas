@@ -12,6 +12,7 @@ export const PORTRAIT_STYLES: PortraitStyle[] = [
     petTypes: ["dog", "cat"],
     popular: true,
     characterTitle: "His Royal Majesty, King {name}",
+    prompt: "Create a majestic Renaissance-era royal portrait of this pet as {title}. The pet should be wearing an ornate velvet robe in deep crimson and gold, adorned with a jeweled golden crown. Setting: a grand throne room with marble columns and oil paintings. Style: classical oil painting reminiscent of Hans Holbein, with rich impasto brushwork, dramatic chiaroscuro lighting, and fine detail in fabrics and jewelry. The pet's face and features must be clearly recognizable from the reference photo. Output a single high-resolution portrait image with no text or watermarks.",
   },
   {
     id: "renaissance-queen",
@@ -24,6 +25,7 @@ export const PORTRAIT_STYLES: PortraitStyle[] = [
     petTypes: ["dog", "cat"],
     popular: true,
     characterTitle: "Her Royal Grace, Queen {name}",
+    prompt: "Create an elegant Renaissance queen portrait of this pet as {title}. The pet should be wearing a lavish brocade gown with pearls and an ornate gold necklace, with a delicate jeweled tiara. Setting: a palace chamber with velvet drapes and stained glass windows. Style: classical oil painting reminiscent of Sandro Botticelli, with soft luminous skin tones, intricate lace details, and warm candlelit atmosphere. The pet's face and features must be clearly recognizable from the reference photo. Output a single high-resolution portrait image with no text or watermarks.",
   },
   {
     id: "renaissance-scholar",
@@ -36,6 +38,7 @@ export const PORTRAIT_STYLES: PortraitStyle[] = [
     petTypes: ["dog", "cat"],
     popular: false,
     characterTitle: "The Learned Professor {name}",
+    prompt: "Create a distinguished Renaissance scholar portrait of this pet as {title}. The pet should be wearing a dark academic robe with fur-trimmed collar, seated at a wooden desk surrounded by leather-bound books, scrolls, and a quill pen. Setting: a grand library with tall bookshelves and an arched window casting warm light. Style: classical oil painting reminiscent of Rembrandt, with rich warm tones, dramatic side lighting, and meticulous detail. The pet's face and features must be clearly recognizable from the reference photo. Output a single high-resolution portrait image with no text or watermarks.",
   },
   {
     id: "renaissance-duke",
@@ -48,6 +51,7 @@ export const PORTRAIT_STYLES: PortraitStyle[] = [
     petTypes: ["dog", "cat"],
     popular: false,
     characterTitle: "The Honourable Duke {name}",
+    prompt: "Create a noble Renaissance duke portrait of this pet as {title}. The pet should be wearing finely embroidered robes in deep blue and gold with an ermine-lined cloak, holding a rolled document. Setting: a grand Italian palazzo with marble floors and classical sculptures. Style: classical oil painting reminiscent of Titian, with vibrant warm colors, rich textures in fabric, and dignified composure. The pet's face and features must be clearly recognizable from the reference photo. Output a single high-resolution portrait image with no text or watermarks.",
   },
   {
     id: "military-general",
@@ -60,6 +64,7 @@ export const PORTRAIT_STYLES: PortraitStyle[] = [
     petTypes: ["dog", "cat"],
     popular: true,
     characterTitle: "General {name}, Commander of Hearts",
+    prompt: "Create a decorated military general portrait of this pet as {title}. The pet should be wearing a dark navy dress uniform with gold epaulettes, medals of honor, brass buttons, and a red sash across the chest. Setting: a battlefield command tent with maps and a dramatic sky. Style: classical oil painting reminiscent of Jacques-Louis David, with bold heroic composition, dramatic lighting, and precise military detail. The pet's face and features must be clearly recognizable from the reference photo. Output a single high-resolution portrait image with no text or watermarks.",
   },
   {
     id: "military-admiral",
@@ -72,6 +77,7 @@ export const PORTRAIT_STYLES: PortraitStyle[] = [
     petTypes: ["dog"],
     popular: false,
     characterTitle: "Admiral {name}, Lord of the Seas",
+    prompt: "Create a commanding naval admiral portrait of this pet as {title}. The pet should be wearing a white and navy admiral's uniform with gold braiding, a bicorn hat, and a telescope in hand. Setting: the deck of a grand wooden flagship with billowing sails and a stormy sea. Style: classical oil painting reminiscent of 18th-century maritime art, with sweeping skies, dramatic ocean waves, and rich naval uniform details. The pet's face and features must be clearly recognizable from the reference photo. Output a single high-resolution portrait image with no text or watermarks.",
   },
   {
     id: "military-colonel",
@@ -84,6 +90,7 @@ export const PORTRAIT_STYLES: PortraitStyle[] = [
     petTypes: ["dog", "cat"],
     popular: false,
     characterTitle: "Colonel {name}, The Brave",
+    prompt: "Create a distinguished colonel portrait of this pet as {title}. The pet should be wearing a scarlet regimental uniform with gold chevrons, a plumed cavalry helmet, and holding a ceremonial saber. Setting: a dramatic battlefield at sunset with regimental colors flying. Style: classical oil painting reminiscent of Sir Thomas Lawrence, with heroic posing, warm sunset tones, and fine uniform details. The pet's face and features must be clearly recognizable from the reference photo. Output a single high-resolution portrait image with no text or watermarks.",
   },
   {
     id: "military-pilot",
@@ -96,6 +103,7 @@ export const PORTRAIT_STYLES: PortraitStyle[] = [
     petTypes: ["dog"],
     popular: false,
     characterTitle: "Ace {name}, Sky Guardian",
+    prompt: "Create a fearless vintage ace pilot portrait of this pet as {title}. The pet should be wearing a brown leather flight jacket with sheepskin collar, vintage aviator goggles pushed up on the forehead, and a silk scarf. Setting: beside a WWI-era biplane on a misty airfield at dawn. Style: classical oil painting with warm sepia tones, romantic aviation era atmosphere, and rich leather texture details. The pet's face and features must be clearly recognizable from the reference photo. Output a single high-resolution portrait image with no text or watermarks.",
   },
   {
     id: "royalty-emperor",
@@ -108,6 +116,7 @@ export const PORTRAIT_STYLES: PortraitStyle[] = [
     petTypes: ["dog", "cat"],
     popular: true,
     characterTitle: "Emperor {name} the Great",
+    prompt: "Create a supreme emperor portrait of this pet as {title}. The pet should be wearing imperial robes of deep purple and gold, a massive jeweled crown, holding a golden scepter, seated on an elaborate gilded throne. Setting: a grand imperial throne room with towering columns and rich tapestries. Style: classical oil painting reminiscent of Napoleon's coronation portraits, with opulent gold tones, dramatic scale, and extraordinary regal splendor. The pet's face and features must be clearly recognizable from the reference photo. Output a single high-resolution portrait image with no text or watermarks.",
   },
   {
     id: "royalty-empress",
@@ -120,6 +129,7 @@ export const PORTRAIT_STYLES: PortraitStyle[] = [
     petTypes: ["dog", "cat"],
     popular: false,
     characterTitle: "Empress {name}, Light of the Realm",
+    prompt: "Create an opulent empress portrait of this pet as {title}. The pet should be wearing a magnificent gown of ivory silk with gold embroidery, a diamond-studded tiara, pearl necklaces, and a velvet cape trimmed with ermine. Setting: a lavish throne room with crystal chandeliers, marble floors, and gilded mirrors. Style: classical oil painting reminiscent of Franz Xaver Winterhalter, with luminous fabrics, sparkling jewels, and an atmosphere of regal elegance. The pet's face and features must be clearly recognizable from the reference photo. Output a single high-resolution portrait image with no text or watermarks.",
   },
   {
     id: "royalty-prince",
@@ -132,6 +142,7 @@ export const PORTRAIT_STYLES: PortraitStyle[] = [
     petTypes: ["dog", "cat"],
     popular: false,
     characterTitle: "Prince {name}, Heir to Your Heart",
+    prompt: "Create a young royal prince portrait of this pet as {title}. The pet should be wearing a smart royal blue doublet with silver buttons, a small coronet, and a ceremonial short sword at the belt. Setting: a castle courtyard with stone walls, a fountain, and banners fluttering in the breeze. Style: classical oil painting reminiscent of Velazquez's royal children, with youthful charm, soft natural lighting, and fine aristocratic details. The pet's face and features must be clearly recognizable from the reference photo. Output a single high-resolution portrait image with no text or watermarks.",
   },
   {
     id: "royalty-princess",
@@ -144,6 +155,7 @@ export const PORTRAIT_STYLES: PortraitStyle[] = [
     petTypes: ["dog", "cat"],
     popular: true,
     characterTitle: "Princess {name}, The Beloved",
+    prompt: "Create a graceful princess portrait of this pet as {title}. The pet should be wearing a flowing pastel gown with delicate floral embroidery, a sparkling crystal tiara, and holding a single rose. Setting: a beautiful palace garden with blooming roses, a stone balustrade, and a soft golden sunset. Style: classical oil painting reminiscent of a fairy-tale illustration, with soft pastel colors, dreamy lighting, and romantic floral details. The pet's face and features must be clearly recognizable from the reference photo. Output a single high-resolution portrait image with no text or watermarks.",
   },
   {
     id: "fantasy-wizard",
@@ -156,6 +168,7 @@ export const PORTRAIT_STYLES: PortraitStyle[] = [
     petTypes: ["dog", "cat"],
     popular: false,
     characterTitle: "Archmage {name} the Wise",
+    prompt: "Create a mystical wizard portrait of this pet as {title}. The pet should be wearing deep indigo robes covered in silver celestial symbols, a tall pointed hat, holding a glowing crystal staff with arcane energy swirling around it. Setting: a wizard's tower filled with ancient books, potions, and magical artifacts, with starlight streaming through a window. Style: classical fantasy oil painting with rich jewel tones, magical luminescence, and an atmosphere of ancient wisdom and power. The pet's face and features must be clearly recognizable from the reference photo. Output a single high-resolution portrait image with no text or watermarks.",
   },
   {
     id: "fantasy-knight",
@@ -168,6 +181,7 @@ export const PORTRAIT_STYLES: PortraitStyle[] = [
     petTypes: ["dog"],
     popular: true,
     characterTitle: "Sir {name} the Lionheart",
+    prompt: "Create a noble knight portrait of this pet as {title}. The pet should be wearing polished silver plate armor with gold inlay, a flowing red cape, holding a mighty sword with a heraldic shield bearing a lion crest. Setting: a castle drawbridge at dawn with misty mountains in the background. Style: classical fantasy oil painting reminiscent of Pre-Raphaelite Brotherhood, with gleaming armor, heroic pose, and epic medieval atmosphere. The pet's face and features must be clearly recognizable from the reference photo. Output a single high-resolution portrait image with no text or watermarks.",
   },
   {
     id: "fantasy-dragon-rider",
@@ -180,6 +194,7 @@ export const PORTRAIT_STYLES: PortraitStyle[] = [
     petTypes: ["dog", "cat"],
     popular: false,
     characterTitle: "{name} Dragonheart, Ruler of Skies",
+    prompt: "Create an epic dragon rider portrait of this pet as {title}. The pet should be wearing dark leather and scale armor with a flowing cloak, seated atop a massive dragon soaring through dramatic clouds. Setting: a vast sky with towering cloud formations, distant mountains, and golden sunlight breaking through. Style: cinematic fantasy oil painting with sweeping scale, dramatic aerial perspective, and rich jewel-toned colors. The pet's face and features must be clearly recognizable from the reference photo. Output a single high-resolution portrait image with no text or watermarks.",
   },
   {
     id: "modern-astronaut",
@@ -192,6 +207,7 @@ export const PORTRAIT_STYLES: PortraitStyle[] = [
     petTypes: ["dog", "cat"],
     popular: true,
     characterTitle: "Commander {name}, Star Explorer",
+    prompt: "Create a heroic astronaut portrait of this pet as {title}. The pet should be wearing a detailed white NASA-style spacesuit with helmet visor partially raised, mission patches on the arm, and an American flag patch. Setting: floating in the International Space Station with Earth's blue glow visible through a large observation window. Style: photorealistic digital painting with cinematic lighting, lens flare from the sun, and precise spacesuit details. The pet's face and features must be clearly recognizable from the reference photo. Output a single high-resolution portrait image with no text or watermarks.",
   },
   {
     id: "modern-superhero",
@@ -204,6 +220,7 @@ export const PORTRAIT_STYLES: PortraitStyle[] = [
     petTypes: ["dog", "cat"],
     popular: false,
     characterTitle: "Captain {name}, Guardian of Good Boys",
+    prompt: "Create a powerful superhero portrait of this pet as {title}. The pet should be wearing a custom superhero suit in royal blue and gold with a flowing red cape, a chest emblem, and a heroic stance with one fist raised. Setting: atop a skyscraper at night with a glowing city skyline below and dramatic lightning in the sky. Style: dynamic comic-book-inspired digital painting with bold colors, dramatic perspective, and cinematic superhero atmosphere. The pet's face and features must be clearly recognizable from the reference photo. Output a single high-resolution portrait image with no text or watermarks.",
   },
   {
     id: "modern-chef",
@@ -216,6 +233,7 @@ export const PORTRAIT_STYLES: PortraitStyle[] = [
     petTypes: ["dog", "cat"],
     popular: false,
     characterTitle: "Chef {name}, Master of Treats",
+    prompt: "Create a world-class chef portrait of this pet as {title}. The pet should be wearing a pristine white double-breasted chef's coat with the name embroidered in gold, a tall toque blanche hat, holding a gleaming chef's knife beside a beautifully plated gourmet dish. Setting: a high-end professional kitchen with copper pans and warm ambient lighting. Style: warm photorealistic digital painting with rich food photography-inspired lighting, steam rising from dishes, and exquisite culinary detail. The pet's face and features must be clearly recognizable from the reference photo. Output a single high-resolution portrait image with no text or watermarks.",
   },
   {
     id: "modern-dj",
@@ -228,6 +246,7 @@ export const PORTRAIT_STYLES: PortraitStyle[] = [
     petTypes: ["dog"],
     popular: false,
     characterTitle: "DJ {name}, Drop the Bark",
+    prompt: "Create a trendy DJ portrait of this pet as {title}. The pet should be wearing a stylish black leather jacket, chunky gold chain, and professional DJ headphones around the neck, hands on turntables with vinyl records. Setting: behind a DJ booth at a nightclub with neon lights, laser beams, and a packed dance floor in the background. Style: vibrant digital painting with electric neon color palette, dynamic lighting effects, and energetic nightlife atmosphere. The pet's face and features must be clearly recognizable from the reference photo. Output a single high-resolution portrait image with no text or watermarks.",
   },
   {
     id: "modern-cowboy",
@@ -240,6 +259,7 @@ export const PORTRAIT_STYLES: PortraitStyle[] = [
     petTypes: ["dog"],
     popular: false,
     characterTitle: "Sheriff {name}, The Legend",
+    prompt: "Create a rugged cowboy portrait of this pet as {title}. The pet should be wearing a weathered brown leather cowboy hat, a denim shirt with a sheriff's star badge, a bandana around the neck, and a lasso coiled at the hip. Setting: the open frontier at golden hour with desert mesas, cacti, and a wooden saloon in the background. Style: warm cinematic digital painting reminiscent of classic Western movie posters, with golden sunset lighting, dusty atmosphere, and rugged frontier details. The pet's face and features must be clearly recognizable from the reference photo. Output a single high-resolution portrait image with no text or watermarks.",
   },
 ];
 
