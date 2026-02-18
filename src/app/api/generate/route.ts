@@ -33,28 +33,34 @@ export async function POST(req: NextRequest) {
 
   let portraitUrl: string | null = null;
   let lastError: string = "";
+  const aiEnabled = !!process.env.GOOGLE_AI_API_KEY;
 
-  // Try up to 2 times
-  for (let attempt = 0; attempt < 2; attempt++) {
-    try {
-      console.log(
-        `[generate] Attempt ${attempt + 1} for ${petName} (style: ${styleId})`
-      );
+  if (aiEnabled) {
+    // Try up to 2 times
+    for (let attempt = 0; attempt < 2; attempt++) {
+      try {
+        console.log(
+          `[generate] Attempt ${attempt + 1} for ${petName} (style: ${styleId})`
+        );
 
-      const result = await generatePortrait(petPhotoUrl, styleId, petName);
-      portraitUrl = await uploadPortrait(
-        result.base64,
-        result.mimeType,
-        paymentIntentId,
-        itemIndex
-      );
+        const result = await generatePortrait(petPhotoUrl, styleId, petName);
+        portraitUrl = await uploadPortrait(
+          result.base64,
+          result.mimeType,
+          paymentIntentId,
+          itemIndex
+        );
 
-      console.log(`[generate] Success: ${portraitUrl}`);
-      break;
-    } catch (err) {
-      lastError = err instanceof Error ? err.message : String(err);
-      console.error(`[generate] Attempt ${attempt + 1} failed:`, lastError);
+        console.log(`[generate] Success: ${portraitUrl}`);
+        break;
+      } catch (err) {
+        lastError = err instanceof Error ? err.message : String(err);
+        console.error(`[generate] Attempt ${attempt + 1} failed:`, lastError);
+      }
     }
+  } else {
+    console.log(`[generate] AI not configured — queuing for manual processing: ${petName} (${styleId})`);
+    lastError = "AI generation not configured — manual processing required";
   }
 
   const resendKey = process.env.RESEND_API_KEY;

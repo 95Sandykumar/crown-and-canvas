@@ -94,8 +94,8 @@ function SuccessContent() {
                 1
               </div>
               <div>
-                <p className="text-sm font-medium text-charcoal">Portrait Generation (minutes)</p>
-                <p className="text-xs text-charcoal/50">Our AI is creating your portrait now — you&apos;ll receive it by email shortly.</p>
+                <p className="text-sm font-medium text-charcoal">Portrait Creation (24-48 Hours)</p>
+                <p className="text-xs text-charcoal/50">Our artists are crafting your royal portrait — you&apos;ll receive it by email.</p>
               </div>
             </div>
             <div className="flex gap-3">

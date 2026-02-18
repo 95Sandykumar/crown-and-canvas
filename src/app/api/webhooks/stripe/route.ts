@@ -164,9 +164,9 @@ async function handleOrderCompleted(session: Stripe.Checkout.Session) {
             <p>We've received your order and are excited to start creating your royal pet portrait.</p>
             <h3>What Happens Next:</h3>
             <ol>
-              <li><strong>Portrait Generation (minutes)</strong> — Our AI is creating your portrait now. You'll receive it by email shortly.</li>
+              <li><strong>Portrait Creation</strong> — Our artists are working on your royal portrait. You'll receive it by email within 24-48 hours.</li>
               <li><strong>Review & Download</strong> — Download your high-resolution portrait from the email link.</li>
-              <li><strong>Delivery</strong> — Digital files sent automatically. Prints ship within 5-7 business days.</li>
+              <li><strong>Delivery</strong> — Digital files sent via email. Canvas & framed prints ship within 5-7 business days.</li>
             </ol>
             <p><strong>Order Total:</strong> $${amountTotal}</p>
             <h3>Your Items:</h3>
