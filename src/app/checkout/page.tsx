@@ -2,11 +2,17 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { Lock, CreditCard, AlertCircle, Heart, PawPrint } from "lucide-react";
+import { loadStripe } from "@stripe/stripe-js";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useCart } from "@/hooks/use-cart";
 import { formatPrice } from "@/data/products";
+
+const stripePromise = loadStripe(
+  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
+);
 
 const DONATION_OPTIONS = [
   { amount: 0, label: "No thanks" },
@@ -18,7 +24,7 @@ const DONATION_OPTIONS = [
 
 export default function CheckoutPage() {
   const router = useRouter();
-  const { items, subtotal, clearCart, isHydrated } = useCart();
+  const { items, subtotal, clearCart, isHydrated, giftWrapping, rushProcessing } = useCart();
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [donationCents, setDonationCents] = useState(500); // Default $5 selected
@@ -59,13 +65,42 @@ export default function CheckoutPage() {
     setLoading(true);
     setError(null);
 
-    // Mock checkout — simulates Stripe redirect
-    // In production, this would call POST /api/stripe/checkout
-    // and include the donation amount as a separate line item
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    try {
+      const res = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          items,
+          email,
+          name,
+          donationCents: effectiveDonation,
+          giftWrapping,
+          rushProcessing,
+        }),
+      });
 
-    clearCart();
-    router.push("/checkout/success");
+      const data = await res.json();
+
+      if (!res.ok || data.error) {
+        setError(data.error || "Something went wrong. Please try again.");
+        setLoading(false);
+        return;
+      }
+
+      // Clear cart before redirecting to Stripe
+      clearCart();
+
+      // Redirect to Stripe Checkout
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        setError("Failed to create checkout session. Please try again.");
+        setLoading(false);
+      }
+    } catch (err) {
+      setError("Network error. Please check your connection and try again.");
+      setLoading(false);
+    }
   };
 
   return (
@@ -286,7 +321,10 @@ export default function CheckoutPage() {
           </Button>
 
           <p className="text-center text-xs text-charcoal/40">
-            By placing your order, you agree to our Terms of Service and Privacy Policy.
+            By placing your order, you agree to our{" "}
+            <Link href="/terms" className="underline hover:text-charcoal/60">Terms of Service</Link>
+            {" "}and{" "}
+            <Link href="/privacy" className="underline hover:text-charcoal/60">Privacy Policy</Link>.
           </p>
         </div>
       </div>

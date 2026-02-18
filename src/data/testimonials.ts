@@ -7,6 +7,8 @@ export const TESTIMONIALS: Testimonial[] = [
     petType: "Golden Retriever",
     quote: "I ordered a Renaissance King portrait of Max for my husband's birthday. When he opened it, he literally cried happy tears. The quality is incredible!",
     rating: 5,
+    petImage: "/portraits/renaissance-king/before.webp",
+    styleName: "Renaissance King",
   },
   {
     name: "James T.",
@@ -14,6 +16,8 @@ export const TESTIMONIALS: Testimonial[] = [
     petType: "Tabby Cat",
     quote: "Luna as an Empress is now the centerpiece of our living room. Everyone who visits asks about it. Best purchase I've made this year!",
     rating: 5,
+    petImage: "/portraits/royalty-empress/before.webp",
+    styleName: "Empress",
   },
   {
     name: "Emily R.",
@@ -21,6 +25,8 @@ export const TESTIMONIALS: Testimonial[] = [
     petType: "French Bulldog",
     quote: "The General portrait of Buddy is absolutely hilarious and beautifully done. The attention to detail is amazing. Already ordering one for my sister's dog.",
     rating: 5,
+    petImage: "/portraits/military-general/before.webp",
+    styleName: "Military General",
   },
   {
     name: "Michael K.",
@@ -28,6 +34,8 @@ export const TESTIMONIALS: Testimonial[] = [
     petType: "Persian Cat",
     quote: "I was skeptical at first, but the final portrait blew me away. Whiskers looks like true royalty. Fast delivery too!",
     rating: 5,
+    petImage: "/portraits/royalty-emperor/before.webp",
+    styleName: "Emperor",
   },
   {
     name: "Lisa P.",
@@ -35,6 +43,8 @@ export const TESTIMONIALS: Testimonial[] = [
     petType: "Labrador",
     quote: "Ordered the Astronaut style for Cooper and it's beyond what I imagined. The canvas quality is museum-grade. Already planning my next order!",
     rating: 5,
+    petImage: "/portraits/modern-astronaut/before.webp",
+    styleName: "Astronaut",
   },
   {
     name: "David S.",
@@ -42,5 +52,7 @@ export const TESTIMONIALS: Testimonial[] = [
     petType: "Dachshund",
     quote: "We got a memorial portrait of our beloved Bella as a Princess. It captures her spirit perfectly. This means the world to our family.",
     rating: 5,
+    petImage: "/portraits/royalty-princess/before.webp",
+    styleName: "Princess",
   },
 ];

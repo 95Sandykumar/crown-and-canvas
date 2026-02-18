@@ -59,35 +59,63 @@ export function HeroSection() {
             </div>
           </div>
 
-          {/* Right: Image showcase */}
-          <div className="relative mx-auto max-w-md lg:max-w-none">
-            <div className="relative aspect-[4/5] overflow-hidden rounded-2xl shadow-2xl shadow-royal/10 border border-gold/20">
-              <Image
-                src="https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=800&h=1000&fit=crop"
-                alt="Pet royal portrait example"
-                fill
-                className="object-cover"
-                priority
-              />
-              {/* Overlay gradient */}
-              <div className="absolute inset-0 bg-gradient-to-t from-charcoal/40 via-transparent to-transparent" />
-              <div className="absolute bottom-0 left-0 right-0 p-6">
-                <div className="rounded-xl bg-white/90 backdrop-blur-sm p-4 shadow-lg">
-                  <div className="flex items-center gap-3">
-                    <div className="h-10 w-10 rounded-full bg-gold/20 flex items-center justify-center">
-                      <Sparkles className="h-5 w-5 text-gold" />
-                    </div>
-                    <div>
-                      <p className="text-sm font-semibold text-charcoal">&ldquo;The Renaissance King&rdquo;</p>
-                      <p className="text-xs text-charcoal/50">Starting at $29.99</p>
-                    </div>
-                  </div>
+          {/* Right: Tilted Before & After showcase */}
+          <div className="relative mx-auto h-[420px] w-full max-w-md sm:h-[480px] lg:h-[520px] lg:max-w-none">
+            {/* Card 1: Before — original pet photo */}
+            <div className="absolute left-0 top-6 z-10 w-[55%] -rotate-6 transition-transform duration-500 hover:-rotate-3 hover:scale-105">
+              <div className="relative aspect-[3/4] overflow-hidden rounded-2xl border-2 border-gold/30 bg-white shadow-xl shadow-charcoal/10">
+                <Image
+                  src="/portraits/renaissance-king/before.webp"
+                  alt="Original pet photo — before transformation"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 45vw, 280px"
+                  priority
+                />
+                {/* Before label */}
+                <div className="absolute top-3 left-3 z-10">
+                  <span className="inline-flex items-center rounded-full bg-white/90 backdrop-blur-sm px-3 py-1 text-xs font-semibold text-charcoal shadow-sm">
+                    Before
+                  </span>
                 </div>
               </div>
             </div>
 
-            {/* Floating badge */}
-            <div className="absolute -top-4 -right-4 rounded-2xl bg-gold px-4 py-2 shadow-lg rotate-6">
+            {/* Sparkle connector between cards */}
+            <div className="absolute left-[46%] top-[45%] z-20 -translate-x-1/2 -translate-y-1/2">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gold shadow-lg">
+                <Sparkles className="h-5 w-5 text-white" />
+              </div>
+            </div>
+
+            {/* Card 2: After — same pet as Renaissance King portrait */}
+            <div className="absolute right-0 top-0 z-15 w-[55%] rotate-3 transition-transform duration-500 hover:rotate-0 hover:scale-105">
+              <div className="relative aspect-[3/4] overflow-hidden rounded-2xl border-2 border-gold/30 bg-white shadow-xl shadow-royal/15">
+                <Image
+                  src="/portraits/renaissance-king/after.webp"
+                  alt="Renaissance King portrait — after transformation"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 45vw, 280px"
+                  priority
+                />
+                {/* After label */}
+                <div className="absolute top-3 left-3 z-10">
+                  <span className="inline-flex items-center rounded-full bg-gold/90 backdrop-blur-sm px-3 py-1 text-xs font-semibold text-white shadow-sm">
+                    After
+                  </span>
+                </div>
+                {/* Style nameplate */}
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-charcoal/60 to-transparent p-4 pt-8">
+                  <p className="font-serif text-sm font-semibold text-white drop-shadow-md">
+                    &ldquo;The Renaissance King&rdquo;
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Floating price badge */}
+            <div className="absolute -top-3 right-0 z-30 rounded-2xl bg-gold px-4 py-2 shadow-lg rotate-6">
               <p className="text-sm font-bold text-charcoal">From $29.99</p>
             </div>
           </div>

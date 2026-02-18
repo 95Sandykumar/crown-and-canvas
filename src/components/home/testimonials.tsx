@@ -1,6 +1,7 @@
 "use client";
 
-import { Star, Quote } from "lucide-react";
+import Image from "next/image";
+import { Star, Quote, CheckCircle } from "lucide-react";
 import { TESTIMONIALS } from "@/data/testimonials";
 
 export function Testimonials() {
@@ -22,7 +23,14 @@ export function Testimonials() {
               key={i}
               className="rounded-xl border border-border/40 bg-cream/50 p-6 space-y-4 hover:shadow-md transition-shadow"
             >
-              <Quote className="h-6 w-6 text-gold/40" />
+              <div className="flex items-start justify-between">
+                <Quote className="h-6 w-6 text-gold/40" />
+                {testimonial.styleName && (
+                  <span className="rounded-full bg-royal/10 px-2.5 py-0.5 text-[11px] font-medium text-royal">
+                    {testimonial.styleName}
+                  </span>
+                )}
+              </div>
               <p className="text-sm text-charcoal/70 leading-relaxed italic">
                 &ldquo;{testimonial.quote}&rdquo;
               </p>
@@ -31,11 +39,28 @@ export function Testimonials() {
                   <Star key={j} className="h-4 w-4 fill-gold text-gold" />
                 ))}
               </div>
-              <div className="border-t border-border/40 pt-4">
-                <p className="text-sm font-semibold text-charcoal">{testimonial.name}</p>
-                <p className="text-xs text-charcoal/50">
-                  {testimonial.petName} the {testimonial.petType}
-                </p>
+              <div className="flex items-center gap-3 border-t border-border/40 pt-4">
+                {/* Pet photo thumbnail */}
+                {testimonial.petImage && (
+                  <div className="relative h-10 w-10 flex-shrink-0 overflow-hidden rounded-full border border-gold/20">
+                    <Image
+                      src={testimonial.petImage}
+                      alt={`${testimonial.petName} the ${testimonial.petType}`}
+                      fill
+                      className="object-cover"
+                      sizes="40px"
+                    />
+                  </div>
+                )}
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center gap-1.5">
+                    <p className="text-sm font-semibold text-charcoal">{testimonial.name}</p>
+                    <CheckCircle className="h-3.5 w-3.5 flex-shrink-0 text-green-500" />
+                  </div>
+                  <p className="truncate text-xs text-charcoal/50">
+                    {testimonial.petName} the {testimonial.petType}
+                  </p>
+                </div>
               </div>
             </div>
           ))}
