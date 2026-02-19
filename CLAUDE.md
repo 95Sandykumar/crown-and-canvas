@@ -148,9 +148,10 @@ Canvas and framed prints require a print-on-demand partner. Options:
 
 ## Immediate TODO
 
-1. **Set up Resend** — Get API key, verify domain, enable order confirmation emails
-2. **Set up Nano Banana** — Get API, swap into generation pipeline
-3. **Choose print partner** — Sign up for Prodigi/Printful, test a sample order
-4. **Custom domain** — Connect your domain in Vercel
-5. **First ad creative** — Before/after transformation video/carousel
-6. **Google Analytics / Meta Pixel** — Track conversions from day 1
+1. ~~**Set up Resend**~~ — DONE. Using onboarding@resend.dev for now.
+2. **REMINDER: Switch Resend from email** — Once custom domain is connected, verify domain in Resend and change from `onboarding@resend.dev` to `orders@yourdomain.com`. Also update `RESEND_FROM_EMAIL` env var on Vercel.
+3. **Set up Nano Banana** — Get API, swap into generation pipeline
+4. **Choose print partner** — Sign up for Prodigi/Printful, test a sample order
+5. **Custom domain** — Connect your domain in Vercel
+6. **First ad creative** — Before/after transformation video/carousel
+7. **Google Analytics / Meta Pixel** — Track conversions from day 1
