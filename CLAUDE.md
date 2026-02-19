@@ -146,6 +146,23 @@ Canvas and framed prints require a print-on-demand partner. Options:
 - Never commit secrets — use `.env.local` locally, Vercel env vars in production
 - Commit messages: `feat:`, `fix:`, `chore:` prefixes
 
+## Pre-Launch Vercel Environment Variables Checklist
+
+Set ALL of these in Vercel → Project Settings → Environment Variables (Production):
+
+| Variable | Value | Notes |
+|---|---|---|
+| `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | `pk_live_...` | From Stripe Dashboard → Developers → API Keys |
+| `STRIPE_SECRET_KEY` | `sk_live_...` | From Stripe Dashboard → Developers → API Keys |
+| `STRIPE_WEBHOOK_SECRET` | `whsec_...` | Create webhook at dashboard.stripe.com/webhooks → endpoint: `https://yourdomain.com/api/webhooks/stripe` → event: `checkout.session.completed` |
+| `NEXT_PUBLIC_APP_URL` | `https://yourdomain.com` | Your final production domain |
+| `BLOB_READ_WRITE_TOKEN` | `vercel_blob_...` | Vercel Dashboard → project → Storage → Blob → Create store |
+| `INTERNAL_API_SECRET` | `8f1368cdfce1059f483687c53195a9b9104e24cddb257bf9e1bc8773c3497b79` | Already generated — paste this exact value |
+| `RESEND_API_KEY` | `re_...` | Already set up |
+| `RESEND_FROM_EMAIL` | `Crown & Canvas <orders@yourdomain.com>` | Update after domain verified in Resend |
+| `ORDER_NOTIFICATION_EMAIL` | your email | Where YOU receive new order alerts |
+| `GOOGLE_AI_API_KEY` | _(leave blank for now)_ | Set when ready for auto-generation |
+
 ## Immediate TODO
 
 1. ~~**Set up Resend**~~ — DONE. Using onboarding@resend.dev for now.

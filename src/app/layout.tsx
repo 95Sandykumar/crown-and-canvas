@@ -16,11 +16,33 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "https://crownandcanvas.com"),
   title: {
     default: `${SITE_NAME} | Custom Pet Royal Portraits`,
     template: `%s | ${SITE_NAME}`,
   },
   description: SITE_DESCRIPTION,
+  keywords: ["custom pet portrait", "pet portrait painting", "royal pet portrait", "dog portrait", "cat portrait", "pet art", "canvas pet portrait"],
+  openGraph: {
+    type: "website",
+    siteName: SITE_NAME,
+    title: `${SITE_NAME} | Custom Pet Royal Portraits`,
+    description: SITE_DESCRIPTION,
+    images: [
+      {
+        url: "/portraits/renaissance-king/after.webp",
+        width: 1200,
+        height: 1200,
+        alt: "Crown & Canvas — Transform your pet into a royal portrait",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${SITE_NAME} | Custom Pet Royal Portraits`,
+    description: SITE_DESCRIPTION,
+    images: ["/portraits/renaissance-king/after.webp"],
+  },
 };
 
 export default function RootLayout({
