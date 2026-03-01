@@ -41,3 +41,10 @@ yarn-error.log*
 next-env.d.ts
 
 .vercel
+
+# Business-sensitive files (do not push to public repo)
+competitive-intelligence.md
+images/
+
+# Design files
+*.pen
