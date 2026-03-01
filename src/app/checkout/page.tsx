@@ -4,15 +4,10 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Lock, CreditCard, AlertCircle, Heart, PawPrint } from "lucide-react";
-import { loadStripe } from "@stripe/stripe-js";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useCart } from "@/hooks/use-cart";
 import { formatPrice } from "@/data/products";
-
-const stripePromise = loadStripe(
-  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
-);
 
 const DONATION_OPTIONS = [
   { amount: 0, label: "No thanks" },
@@ -128,6 +123,18 @@ export default function CheckoutPage() {
                 </span>
               </div>
             ))}
+            {giftWrapping && (
+              <div className="flex justify-between text-sm">
+                <span className="text-charcoal/70">Gift Wrapping</span>
+                <span className="font-medium text-charcoal">{formatPrice(999)}</span>
+              </div>
+            )}
+            {rushProcessing && (
+              <div className="flex justify-between text-sm">
+                <span className="text-charcoal/70">Rush Processing</span>
+                <span className="font-medium text-charcoal">{formatPrice(1499)}</span>
+              </div>
+            )}
             <div className="border-t border-border/40 pt-3 flex justify-between">
               <span className="text-sm text-charcoal/60">Subtotal</span>
               <span className="font-medium text-charcoal">{formatPrice(subtotal)}</span>

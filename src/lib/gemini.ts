@@ -75,6 +75,7 @@ export async function generatePortrait(
       ],
       config: {
         responseModalities: ["IMAGE"],
+        abortSignal: controller.signal,
       },
     });
 

@@ -53,8 +53,12 @@ export const useCartStore = create<CartState>()(
           rushProcessing: false,
         }),
 
-      getSubtotal: () =>
-        get().items.reduce((sum, item) => sum + item.priceInCents * item.quantity, 0),
+      getSubtotal: () => {
+        const state = get();
+        const itemsTotal = state.items.reduce((sum, item) => sum + item.priceInCents * item.quantity, 0);
+        const addOns = (state.giftWrapping ? 999 : 0) + (state.rushProcessing ? 1499 : 0);
+        return itemsTotal + addOns;
+      },
 
       getItemCount: () =>
         get().items.reduce((sum, item) => sum + item.quantity, 0),

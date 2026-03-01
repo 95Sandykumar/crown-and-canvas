@@ -80,7 +80,21 @@ export default function StylesPage() {
               </div>
               <div className="p-3">
                 <h3 className="text-sm font-semibold text-charcoal">{style.name}</h3>
-                <p className="text-xs text-charcoal/50 mt-0.5">{style.category}</p>
+                <div className="flex items-center gap-1.5 mt-1">
+                  <div className="flex items-center">
+                    {[...Array(5)].map((_, i) => (
+                      <span
+                        key={i}
+                        className={`text-[10px] ${i < Math.round(style.rating) ? "text-gold" : "text-charcoal/20"}`}
+                      >
+                        &#9733;
+                      </span>
+                    ))}
+                  </div>
+                  <span className="text-[10px] font-medium text-charcoal/50">
+                    {style.rating} ({style.reviewCount.toLocaleString()})
+                  </span>
+                </div>
               </div>
             </Link>
           ))}

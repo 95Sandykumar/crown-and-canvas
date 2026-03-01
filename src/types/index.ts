@@ -19,6 +19,8 @@ export interface PortraitStyle {
   popular: boolean;
   characterTitle: string;
   prompt: string;
+  rating: number;
+  reviewCount: number;
 }
 
 export interface ProductTier {

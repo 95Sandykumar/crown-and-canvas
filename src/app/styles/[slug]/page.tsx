@@ -6,9 +6,25 @@ import { Badge } from "@/components/ui/badge";
 import { PORTRAIT_STYLES, getStyleBySlug } from "@/data/styles";
 import { formatPrice } from "@/data/products";
 import { BeforeAfterCrossfade } from "@/components/ui/before-after-crossfade";
+import type { Metadata } from "next";
 
 export function generateStaticParams() {
   return PORTRAIT_STYLES.map((style) => ({ slug: style.slug }));
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const style = getStyleBySlug(slug);
+  if (!style) return {};
+  return {
+    title: `${style.name} — Custom Pet Portrait`,
+    description: style.description,
+    openGraph: {
+      title: `${style.name} — Custom Pet Portrait | Crown & Canvas`,
+      description: style.description,
+      images: [{ url: style.previewImage, width: 800, height: 1067, alt: style.name }],
+    },
+  };
 }
 
 export default async function StyleDetailPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -19,8 +35,38 @@ export default async function StyleDetailPage({ params }: { params: Promise<{ sl
     notFound();
   }
 
+  const siteUrl = process.env.NEXT_PUBLIC_APP_URL || "https://crownandcanvas.com";
+
+  const productJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: `${style.name} — Custom Pet Portrait`,
+    description: style.description,
+    image: `${siteUrl}${style.previewImage}`,
+    brand: { "@type": "Brand", name: "Crown & Canvas" },
+    offers: {
+      "@type": "AggregateOffer",
+      lowPrice: "29.99",
+      highPrice: "149.99",
+      priceCurrency: "USD",
+      availability: "https://schema.org/InStock",
+      url: `${siteUrl}/styles/${style.slug}`,
+    },
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: style.rating.toString(),
+      reviewCount: style.reviewCount.toString(),
+      bestRating: "5",
+      worstRating: "1",
+    },
+  };
+
   return (
     <div className="bg-cream min-h-screen">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
+      />
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         {/* Back link */}
         <Link
@@ -57,6 +103,21 @@ export default async function StyleDetailPage({ params }: { params: Promise<{ sl
               <h1 className="font-serif text-3xl font-bold text-charcoal sm:text-4xl">
                 {style.name}
               </h1>
+              <div className="flex items-center gap-2">
+                <div className="flex items-center">
+                  {[...Array(5)].map((_, i) => (
+                    <span
+                      key={i}
+                      className={`text-sm ${i < Math.round(style.rating) ? "text-gold" : "text-charcoal/20"}`}
+                    >
+                      &#9733;
+                    </span>
+                  ))}
+                </div>
+                <span className="text-sm font-medium text-charcoal/60">
+                  {style.rating} ({style.reviewCount.toLocaleString()} reviews)
+                </span>
+              </div>
               <p className="text-lg text-charcoal/60 leading-relaxed">
                 {style.description}
               </p>

@@ -25,6 +25,10 @@ export function HeroSection() {
               <span className="text-royal">Royalty</span>
             </h1>
 
+            <p className="text-lg font-medium text-gold italic">
+              Frame Your Pet&apos;s Personality
+            </p>
+
             <p className="mx-auto max-w-lg text-lg text-charcoal/60 lg:mx-0">
               Upload a photo of your beloved pet and we&apos;ll transform them into a
               stunning royal portrait. Choose from 20+ styles &mdash; Renaissance kings,

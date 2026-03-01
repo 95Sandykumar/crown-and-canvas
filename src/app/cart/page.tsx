@@ -10,7 +10,7 @@ import { formatPrice } from "@/data/products";
 
 export default function CartPage() {
   const router = useRouter();
-  const { items, removeItem, updateQuantity, subtotal, itemCount, isHydrated } = useCart();
+  const { items, removeItem, updateQuantity, subtotal, itemCount, isHydrated, giftWrapping, rushProcessing } = useCart();
 
   if (!isHydrated) {
     return (
@@ -124,9 +124,21 @@ export default function CartPage() {
 
             <div className="space-y-2 text-sm">
               <div className="flex justify-between text-charcoal/60">
-                <span>Subtotal</span>
-                <span>{formatPrice(subtotal)}</span>
+                <span>Items</span>
+                <span>{formatPrice(items.reduce((sum, i) => sum + i.priceInCents * i.quantity, 0))}</span>
               </div>
+              {giftWrapping && (
+                <div className="flex justify-between text-charcoal/60">
+                  <span>Gift Wrapping</span>
+                  <span>{formatPrice(999)}</span>
+                </div>
+              )}
+              {rushProcessing && (
+                <div className="flex justify-between text-charcoal/60">
+                  <span>Rush Processing</span>
+                  <span>{formatPrice(1499)}</span>
+                </div>
+              )}
               <div className="flex justify-between text-charcoal/60">
                 <span>Shipping</span>
                 <span className="text-royal font-medium">Free</span>
