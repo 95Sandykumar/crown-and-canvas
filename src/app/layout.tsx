@@ -46,8 +46,13 @@ export const metadata: Metadata = {
   },
 };
 
-const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
-const META_PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID;
+// Validate analytics IDs to prevent script injection via env vars
+const GA_MEASUREMENT_ID = /^G-[A-Z0-9]+$/.test(process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID ?? "")
+  ? process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID
+  : undefined;
+const META_PIXEL_ID = /^\d+$/.test(process.env.NEXT_PUBLIC_META_PIXEL_ID ?? "")
+  ? process.env.NEXT_PUBLIC_META_PIXEL_ID
+  : undefined;
 
 const organizationJsonLd = {
   "@context": "https://schema.org",

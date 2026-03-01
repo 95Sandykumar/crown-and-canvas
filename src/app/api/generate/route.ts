@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
+import { timingSafeEqual } from "crypto";
 import { generatePortrait } from "@/lib/gemini";
 import { uploadPortrait } from "@/lib/blob";
+import { escapeHtml } from "@/lib/security";
 
 interface GenerateRequest {
   petPhotoUrl: string;
@@ -12,11 +14,17 @@ interface GenerateRequest {
   customerName: string;
 }
 
+function secureCompare(a: string, b: string): boolean {
+  if (a.length !== b.length) return false;
+  return timingSafeEqual(Buffer.from(a), Buffer.from(b));
+}
+
 export async function POST(req: NextRequest) {
-  // Verify internal secret
-  const authHeader = req.headers.get("authorization");
+  // Verify internal secret (timing-safe comparison)
+  const authHeader = req.headers.get("authorization") || "";
   const secret = process.env.INTERNAL_API_SECRET;
-  if (!secret || authHeader !== `Bearer ${secret}`) {
+  const expected = `Bearer ${secret}`;
+  if (!secret || !secureCompare(authHeader, expected)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -40,7 +48,7 @@ export async function POST(req: NextRequest) {
     for (let attempt = 0; attempt < 2; attempt++) {
       try {
         console.log(
-          `[generate] Attempt ${attempt + 1} for ${petName} (style: ${styleId})`
+          `[generate] Attempt ${attempt + 1} for order ${paymentIntentId} item ${itemIndex}`
         );
 
         const result = await generatePortrait(petPhotoUrl, styleId, petName);
@@ -51,7 +59,7 @@ export async function POST(req: NextRequest) {
           itemIndex
         );
 
-        console.log(`[generate] Success: ${portraitUrl}`);
+        console.log(`[generate] Success for order ${paymentIntentId} item ${itemIndex}`);
         break;
       } catch (err) {
         lastError = err instanceof Error ? err.message : String(err);
@@ -59,7 +67,7 @@ export async function POST(req: NextRequest) {
       }
     }
   } else {
-    console.log(`[generate] AI not configured — queuing for manual processing: ${petName} (${styleId})`);
+    console.log(`[generate] AI not configured — queuing for manual processing`);
     lastError = "AI generation not configured — manual processing required";
   }
 
@@ -68,8 +76,11 @@ export async function POST(req: NextRequest) {
     process.env.RESEND_FROM_EMAIL || "Crown & Canvas <orders@resend.dev>";
 
   if (portraitUrl && resendKey) {
-    // Email portrait to customer
+    // Email portrait to customer (HTML-escaped user values)
     try {
+      const safeName = escapeHtml(customerName);
+      const safePetName = escapeHtml(petName);
+
       await fetch("https://api.resend.com/emails", {
         method: "POST",
         headers: {
@@ -81,10 +92,10 @@ export async function POST(req: NextRequest) {
           to: customerEmail,
           subject: `Your Royal Portrait of ${petName} is Ready!`,
           html: `
-            <h2>Your portrait is ready, ${customerName}!</h2>
-            <p>We've finished creating the royal portrait of <strong>${petName}</strong>.</p>
+            <h2>Your portrait is ready, ${safeName}!</h2>
+            <p>We've finished creating the royal portrait of <strong>${safePetName}</strong>.</p>
             <p><a href="${portraitUrl}" style="display:inline-block;padding:12px 24px;background:#1a365d;color:#fff;text-decoration:none;border-radius:6px;font-weight:bold;">View & Download Your Portrait</a></p>
-            <p style="margin-top:16px;"><img src="${portraitUrl}" alt="Portrait of ${petName}" style="max-width:400px;border-radius:8px;" /></p>
+            <p style="margin-top:16px;"><img src="${portraitUrl}" alt="Portrait of ${safePetName}" style="max-width:400px;border-radius:8px;" /></p>
             <hr />
             <p>Love your portrait? Share it with friends and family!</p>
             <p>Questions? Reply to this email and we'll help you out.</p>
@@ -104,6 +115,10 @@ export async function POST(req: NextRequest) {
     const notifyEmail = process.env.ORDER_NOTIFICATION_EMAIL;
     if (notifyEmail) {
       try {
+        const safeName = escapeHtml(customerName);
+        const safePetName = escapeHtml(petName);
+        const safeError = escapeHtml(lastError);
+
         await fetch("https://api.resend.com/emails", {
           method: "POST",
           headers: {
@@ -113,15 +128,14 @@ export async function POST(req: NextRequest) {
           body: JSON.stringify({
             from: fromEmail,
             to: notifyEmail,
-            subject: `[ACTION REQUIRED] Portrait generation failed for ${petName}`,
+            subject: `[ACTION REQUIRED] Portrait generation failed`,
             html: `
               <h2>Portrait Generation Failed</h2>
-              <p><strong>Customer:</strong> ${customerName} (${customerEmail})</p>
-              <p><strong>Pet:</strong> ${petName}</p>
-              <p><strong>Style:</strong> ${styleId}</p>
-              <p><strong>Payment:</strong> ${paymentIntentId}</p>
-              <p><strong>Error:</strong> ${lastError}</p>
-              <p><strong>Pet Photo:</strong> <a href="${petPhotoUrl}">${petPhotoUrl}</a></p>
+              <p><strong>Customer:</strong> ${safeName} (${escapeHtml(customerEmail)})</p>
+              <p><strong>Pet:</strong> ${safePetName}</p>
+              <p><strong>Style:</strong> ${escapeHtml(styleId)}</p>
+              <p><strong>Payment:</strong> ${escapeHtml(paymentIntentId)}</p>
+              <p><strong>Error:</strong> ${safeError}</p>
               <hr />
               <p>This order needs manual portrait creation and delivery.</p>
             `,
@@ -133,7 +147,7 @@ export async function POST(req: NextRequest) {
     }
 
     return NextResponse.json(
-      { error: "Generation failed", details: lastError },
+      { error: "Generation failed" },
       { status: 500 }
     );
   }

@@ -14,7 +14,6 @@ interface OrderItem {
 
 interface OrderDetails {
   customerName: string | null;
-  customerEmail: string | null;
   amountTotal: number | null;
   currency: string | null;
   paymentStatus: string;
@@ -121,9 +120,7 @@ function SuccessContent() {
 
         <div className="flex items-center justify-center gap-2 text-sm text-charcoal/50">
           <Mail className="h-4 w-4" />
-          {order?.customerEmail
-            ? `Confirmation sent to ${order.customerEmail}`
-            : "Check your email for order confirmation details"}
+          Check your email for order confirmation details
         </div>
 
         <div className="flex flex-col sm:flex-row gap-3 justify-center">

@@ -85,8 +85,8 @@ export default function CheckoutPage() {
       // Clear cart before redirecting to Stripe
       clearCart();
 
-      // Redirect to Stripe Checkout
-      if (data.url) {
+      // Redirect to Stripe Checkout (validate URL to prevent open redirect)
+      if (data.url && typeof data.url === "string" && data.url.startsWith("https://checkout.stripe.com/")) {
         window.location.href = data.url;
       } else {
         setError("Failed to create checkout session. Please try again.");

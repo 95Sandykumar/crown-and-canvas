@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import { getStripe } from "@/lib/stripe";
+import { escapeHtml } from "@/lib/security";
 
 export async function POST(req: NextRequest) {
   const body = await req.text();
@@ -43,15 +44,7 @@ async function handleOrderCompleted(session: Stripe.Checkout.Session) {
   const donationCents = parseInt(session.metadata?.donationCents || "0", 10);
   const amountTotal = session.amount_total ? (session.amount_total / 100).toFixed(2) : "0.00";
 
-  console.log("=== NEW ORDER RECEIVED ===");
-  console.log(`Customer: ${customerName} (${customerEmail})`);
-  console.log(`Amount: $${amountTotal}`);
-  console.log(`Items: ${orderItems}`);
-  console.log(`Gift Wrapping: ${giftWrapping}`);
-  console.log(`Rush Processing: ${rushProcessing}`);
-  console.log(`Donation: $${(donationCents / 100).toFixed(2)}`);
-  console.log(`Stripe Payment ID: ${session.payment_intent}`);
-  console.log("==========================");
+  console.log(`[webhook] Order received: $${amountTotal}, payment: ${session.payment_intent}`);
 
   // Trigger AI portrait generation for each item
   const internalSecret = process.env.INTERNAL_API_SECRET;
@@ -117,9 +110,12 @@ async function handleOrderCompleted(session: Stripe.Checkout.Session) {
       const itemsList = items
         .map(
           (item: { style: string; tier: string; size: string; pet: string; qty: number }) =>
-            `<li><strong>${item.style}</strong> — ${item.tier} (${item.size}) | Pet: ${item.pet} x${item.qty}</li>`
+            `<li><strong>${escapeHtml(item.style)}</strong> — ${escapeHtml(item.tier)} (${escapeHtml(item.size)}) | Pet: ${escapeHtml(item.pet)} x${item.qty}</li>`
         )
         .join("");
+
+      const safeName = escapeHtml(customerName);
+      const safeEmail = escapeHtml(customerEmail || "");
 
       await fetch("https://api.resend.com/emails", {
         method: "POST",
@@ -130,20 +126,20 @@ async function handleOrderCompleted(session: Stripe.Checkout.Session) {
         body: JSON.stringify({
           from: process.env.RESEND_FROM_EMAIL || "Crown & Canvas <orders@resend.dev>",
           to: notifyEmail,
-          subject: `New Order: $${amountTotal} from ${customerName}`,
+          subject: `New Order: $${amountTotal}`,
           html: `
             <h2>New Order Received!</h2>
-            <p><strong>Customer:</strong> ${customerName}</p>
-            <p><strong>Email:</strong> ${customerEmail}</p>
+            <p><strong>Customer:</strong> ${safeName}</p>
+            <p><strong>Email:</strong> ${safeEmail}</p>
             <p><strong>Total:</strong> $${amountTotal}</p>
-            <p><strong>Stripe Payment:</strong> ${session.payment_intent}</p>
+            <p><strong>Stripe Payment:</strong> ${escapeHtml(String(session.payment_intent))}</p>
             <h3>Items:</h3>
             <ul>${itemsList}</ul>
             ${giftWrapping ? "<p>Gift Wrapping: Yes</p>" : ""}
             ${rushProcessing ? "<p>Rush Processing: Yes</p>" : ""}
             ${donationCents > 0 ? `<p>Shelter Donation: $${(donationCents / 100).toFixed(2)}</p>` : ""}
             <hr />
-            <p><a href="https://dashboard.stripe.com/payments/${session.payment_intent}">View in Stripe Dashboard</a></p>
+            <p><a href="https://dashboard.stripe.com/payments/${escapeHtml(String(session.payment_intent))}">View in Stripe Dashboard</a></p>
           `,
         }),
       });
@@ -160,7 +156,7 @@ async function handleOrderCompleted(session: Stripe.Checkout.Session) {
           to: customerEmail,
           subject: "Your Crown & Canvas Order is Confirmed!",
           html: `
-            <h2>Thank you for your order, ${customerName}!</h2>
+            <h2>Thank you for your order, ${safeName}!</h2>
             <p>We've received your order and are excited to start creating your royal pet portrait.</p>
             <h3>What Happens Next:</h3>
             <ol>
