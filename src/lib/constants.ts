@@ -5,6 +5,7 @@ export const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:300
 export const NAV_LINKS = [
   { label: "Home", href: "/" },
   { label: "Styles", href: "/styles" },
+  { label: "Blog", href: "/blog" },
   { label: "About", href: "/about" },
   { label: "FAQ", href: "/faq" },
 ] as const;
