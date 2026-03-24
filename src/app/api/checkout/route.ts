@@ -173,8 +173,13 @@ export async function POST(req: NextRequest) {
       metadata[key] = fullOrderData.slice(i, i + chunkSize);
     }
 
+    // Check if order includes physical products (canvas or framed)
+    const hasPhysicalProduct = items.some(
+      (item) => item.tierId === "canvas" || item.tierId === "framed"
+    );
+
     const stripe = getStripe();
-    const session = await stripe.checkout.sessions.create({
+    const sessionParams: Stripe.Checkout.SessionCreateParams = {
       payment_method_types: ["card"],
       line_items: lineItems,
       mode: "payment",
@@ -182,7 +187,43 @@ export async function POST(req: NextRequest) {
       cancel_url: `${baseUrl}/checkout`,
       customer_email: email,
       metadata,
-    });
+    };
+
+    // Collect shipping address for physical products
+    if (hasPhysicalProduct) {
+      sessionParams.shipping_address_collection = {
+        allowed_countries: [
+          "US", "CA", "GB", "AU", "DE", "FR", "IT", "ES", "NL", "BE",
+          "AT", "CH", "SE", "NO", "DK", "FI", "IE", "NZ", "PT", "JP",
+        ],
+      };
+      sessionParams.shipping_options = [
+        {
+          shipping_rate_data: {
+            type: "fixed_amount",
+            fixed_amount: { amount: 0, currency: "usd" },
+            display_name: "Free Standard Shipping",
+            delivery_estimate: {
+              minimum: { unit: "business_day", value: 5 },
+              maximum: { unit: "business_day", value: 7 },
+            },
+          },
+        },
+        {
+          shipping_rate_data: {
+            type: "fixed_amount",
+            fixed_amount: { amount: 1499, currency: "usd" },
+            display_name: "Express Shipping",
+            delivery_estimate: {
+              minimum: { unit: "business_day", value: 2 },
+              maximum: { unit: "business_day", value: 3 },
+            },
+          },
+        },
+      ];
+    }
+
+    const session = await stripe.checkout.sessions.create(sessionParams);
 
     return NextResponse.json({ url: session.url });
   } catch (err) {

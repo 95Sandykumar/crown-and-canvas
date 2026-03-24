@@ -44,7 +44,15 @@ async function handleOrderCompleted(session: Stripe.Checkout.Session) {
   const donationCents = parseInt(session.metadata?.donationCents || "0", 10);
   const amountTotal = session.amount_total ? (session.amount_total / 100).toFixed(2) : "0.00";
 
+  // Extract shipping address for physical orders
+  const shipping = session.collected_information?.shipping_details;
+  const shippingAddress = shipping?.address;
+  const shippingName = shipping?.name || customerName;
+
   console.log(`[webhook] Order received: $${amountTotal}, payment: ${session.payment_intent}`);
+  if (shippingAddress) {
+    console.log(`[webhook] Ship to: ${shippingName}, ${shippingAddress.line1}, ${shippingAddress.city}, ${shippingAddress.state} ${shippingAddress.postal_code}, ${shippingAddress.country}`);
+  }
 
   // Trigger AI portrait generation for each item
   const internalSecret = process.env.INTERNAL_API_SECRET;
@@ -138,6 +146,16 @@ async function handleOrderCompleted(session: Stripe.Checkout.Session) {
             ${giftWrapping ? "<p>Gift Wrapping: Yes</p>" : ""}
             ${rushProcessing ? "<p>Rush Processing: Yes</p>" : ""}
             ${donationCents > 0 ? `<p>Shelter Donation: $${(donationCents / 100).toFixed(2)}</p>` : ""}
+            ${shippingAddress ? `
+              <h3>Shipping Address:</h3>
+              <p>
+                ${escapeHtml(shippingName)}<br />
+                ${escapeHtml(shippingAddress.line1 || "")}<br />
+                ${shippingAddress.line2 ? escapeHtml(shippingAddress.line2) + "<br />" : ""}
+                ${escapeHtml(shippingAddress.city || "")}, ${escapeHtml(shippingAddress.state || "")} ${escapeHtml(shippingAddress.postal_code || "")}<br />
+                ${escapeHtml(shippingAddress.country || "")}
+              </p>
+            ` : "<p><em>Digital order — no shipping needed</em></p>"}
             <hr />
             <p><a href="https://dashboard.stripe.com/payments/${escapeHtml(String(session.payment_intent))}">View in Stripe Dashboard</a></p>
           `,
