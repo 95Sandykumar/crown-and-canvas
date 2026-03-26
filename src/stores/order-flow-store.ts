@@ -54,6 +54,10 @@ export const useOrderFlowStore = create<OrderFlowState & OrderFlowActions>()(
           removeItem: () => {},
         }
       ),
+      partialize: (state) => {
+        const { petPhotoUrl, ...rest } = state;
+        return rest as typeof state;
+      },
     }
   )
 );
