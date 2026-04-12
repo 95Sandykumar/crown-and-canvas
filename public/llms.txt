@@ -1,0 +1,43 @@
+# Crown & Canvas
+
+> Premium AI-generated pet portrait artwork. Transform your pet photo into royal, military, and fantasy portrait art.
+
+## About
+
+Crown & Canvas transforms pet photos into stunning AI-generated portrait artwork. Choose from 20+ artistic styles across Renaissance, Military, Royalty, Fantasy, and Modern themes. Available as digital downloads, gallery-wrapped canvas prints, and luxury framed prints.
+
+## Products
+
+- Digital Download: $29.99 (high-res JPG + PNG, 300 DPI)
+- Premium Canvas: $59.99-$89.99 (gallery-wrapped, ready to hang)
+- Luxury Framed: $99.99-$149.99 (museum-quality wood frame, UV glass)
+
+## Portrait Styles
+
+- Renaissance: King, Queen, Scholar, Duke
+- Military: General, Admiral, Colonel, Ace Pilot
+- Royalty: Emperor, Empress, Prince, Princess
+- Fantasy: Wizard, Knight, Dragon Rider
+- Modern: Astronaut, Superhero, Chef, DJ, Cowboy
+
+## How It Works
+
+1. Upload your pet photo
+2. Choose a portrait style
+3. Select product tier and size
+4. Receive your custom portrait artwork
+
+## Add-Ons
+
+- Rush Processing (3-5 days): +$14.99
+- Premium Gift Wrapping: +$9.99
+
+## Links
+
+- Full details: /llms-full.txt
+- [Homepage](https://crownandcanvas.us)
+- [Browse Styles](https://crownandcanvas.us/styles)
+- [Start Order](https://crownandcanvas.us/order/upload)
+- [About](https://crownandcanvas.us/about)
+- [FAQ](https://crownandcanvas.us/faq)
+- [Blog](https://crownandcanvas.us/blog)
