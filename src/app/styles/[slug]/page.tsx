@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { PORTRAIT_STYLES, getStyleBySlug } from "@/data/styles";
 import { formatPrice } from "@/data/products";
-import { BeforeAfterCrossfade } from "@/components/ui/before-after-crossfade";
+import { ComparisonSlider } from "@/components/ui/comparison-slider";
 import type { Metadata } from "next";
 
 export function generateStaticParams() {
@@ -80,7 +80,7 @@ export default async function StyleDetailPage({ params }: { params: Promise<{ sl
         <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
           {/* Image */}
           <div className="relative aspect-[3/4] overflow-hidden rounded-2xl shadow-xl border border-gold/20">
-            <BeforeAfterCrossfade
+            <ComparisonSlider
               beforeImage={style.beforeImage}
               afterImage={style.previewImage}
               alt={style.name}

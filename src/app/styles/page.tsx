@@ -6,7 +6,7 @@ import { ArrowRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { PORTRAIT_STYLES, STYLE_CATEGORIES } from "@/data/styles";
-import { BeforeAfterCrossfade } from "@/components/ui/before-after-crossfade";
+import { ComparisonSlider } from "@/components/ui/comparison-slider";
 import type { Metadata } from "next";
 
 export default function StylesPage() {
@@ -57,13 +57,12 @@ export default function StylesPage() {
               className="group relative overflow-hidden rounded-xl bg-white shadow-sm border border-border/40 hover:shadow-lg hover:border-gold/30 transition-all duration-300"
             >
               <div className="aspect-[3/4] relative overflow-hidden">
-                <BeforeAfterCrossfade
+                <ComparisonSlider
                   beforeImage={style.beforeImage}
                   afterImage={style.previewImage}
                   alt={style.name}
-                  imageClassName="object-cover transition-transform duration-500 group-hover:scale-105"
+                  imageClassName="object-cover"
                   sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                  staggerOffset={index * 300}
                   characterTitle={style.characterTitle}
                 />
                 {style.popular && (

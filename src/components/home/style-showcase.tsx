@@ -3,7 +3,7 @@ import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getPopularStyles } from "@/data/styles";
 import { Badge } from "@/components/ui/badge";
-import { BeforeAfterCrossfade } from "@/components/ui/before-after-crossfade";
+import { ComparisonSlider } from "@/components/ui/comparison-slider";
 
 export function StyleShowcase() {
   const popularStyles = getPopularStyles();
@@ -35,13 +35,12 @@ export function StyleShowcase() {
               className="group relative overflow-hidden rounded-xl bg-white shadow-sm border border-border/40 hover:shadow-lg hover:border-gold/30 transition-all duration-300"
             >
               <div className="aspect-[3/4] relative overflow-hidden">
-                <BeforeAfterCrossfade
+                <ComparisonSlider
                   beforeImage={style.beforeImage}
                   afterImage={style.previewImage}
                   alt={style.name}
-                  imageClassName="object-cover transition-transform duration-500 group-hover:scale-105"
+                  imageClassName="object-cover"
                   sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                  staggerOffset={index * 300}
                   characterTitle={style.characterTitle}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-charcoal/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />

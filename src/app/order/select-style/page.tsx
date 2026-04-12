@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { OrderStepper } from "@/components/layout/order-stepper";
 import { useOrderFlowStore } from "@/stores/order-flow-store";
 import { PORTRAIT_STYLES, STYLE_CATEGORIES } from "@/data/styles";
-import { BeforeAfterCrossfade } from "@/components/ui/before-after-crossfade";
+import { ComparisonSlider } from "@/components/ui/comparison-slider";
 
 export default function SelectStylePage() {
   const router = useRouter();
@@ -79,14 +79,13 @@ export default function SelectStylePage() {
                   }`}
                 >
                   <div className="aspect-[3/4] relative overflow-hidden">
-                    <BeforeAfterCrossfade
+                    <ComparisonSlider
                       beforeImage={style.beforeImage}
                       afterImage={style.previewImage}
                       alt={style.name}
                       imageClassName="object-cover"
                       showLabels={false}
                       sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                      staggerOffset={index * 300}
                       characterTitle={style.characterTitle}
                     />
                     {isSelected && (
