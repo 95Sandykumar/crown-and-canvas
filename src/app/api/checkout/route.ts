@@ -212,19 +212,33 @@ export async function POST(req: NextRequest) {
     );
 
     const stripe = getStripe();
+
+    // Resolve (or create) a Stripe customer by email so customer-bound promo
+    // codes can validate (e.g. a loyalty code locked to one buyer). Defensive:
+    // any failure falls back to customer_email so checkout never breaks.
+    let customerId: string | undefined;
+    try {
+      const existing = await stripe.customers.list({ email, limit: 1 });
+      customerId = existing.data[0]?.id ?? (await stripe.customers.create({ email, name })).id;
+    } catch (err) {
+      console.error("Customer resolution failed; using customer_email:", err);
+    }
+
     const sessionParams: Stripe.Checkout.SessionCreateParams = {
       payment_method_types: ["card"],
       line_items: lineItems,
       mode: "payment",
       success_url: `${baseUrl}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${baseUrl}/checkout`,
-      customer_email: email,
+      ...(customerId ? { customer: customerId } : { customer_email: email }),
       allow_promotion_codes: true,
       metadata,
     };
 
     // Collect shipping address for physical products
     if (hasPhysicalProduct) {
+      // Stripe requires customer_update[shipping] when a customer is set and we collect shipping.
+      if (customerId) sessionParams.customer_update = { shipping: "auto" };
       sessionParams.shipping_address_collection = {
         allowed_countries: [
           "US", "CA", "GB", "AU", "DE", "FR", "IT", "ES", "NL", "BE",
