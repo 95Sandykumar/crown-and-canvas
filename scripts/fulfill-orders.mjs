@@ -49,6 +49,7 @@ const STRIPE_KEY = E.STRIPE_SECRET_KEY;
 const RESEND_KEY = E.RESEND_API_KEY;
 const FROM = E.RESEND_FROM_EMAIL || "Crown & Canvas <orders@crownandcanvas.us>";
 const NOTIFY = E.ORDER_NOTIFICATION_EMAIL;
+const AUDIENCE = E.RESEND_AUDIENCE_ID; // Resend customer audience (auto-add on delivery)
 if (!STRIPE_KEY || !RESEND_KEY) { console.error("Missing STRIPE_SECRET_KEY or RESEND_API_KEY"); process.exit(1); }
 
 // ---- styles (single source of truth) ----
@@ -174,6 +175,19 @@ function reviewHtml(sessionId, name, email, petNames) {
 </div>`;
 }
 
+// ---- add a delivered customer to the Resend audience (best-effort) ----
+async function addToAudience(email, name) {
+  if (!AUDIENCE) return;
+  const parts = (name || "").trim().split(/\s+/);
+  try {
+    await fetch(`https://api.resend.com/audiences/${AUDIENCE}/contacts`, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${RESEND_KEY}`, "Content-Type": "application/json" },
+      body: JSON.stringify({ email, first_name: parts[0] || "", last_name: parts.slice(1).join(" "), unsubscribed: false }),
+    });
+  } catch (e) { log(`  audience add failed for ${email}: ${e.message}`); }
+}
+
 // ---- deliver a generated (cached) order to the customer ----
 async function deliverToCustomer(sessionId, rec, ledger) {
   const attachments = rec.items.map((it) => ({
@@ -187,6 +201,7 @@ async function deliverToCustomer(sessionId, rec, ledger) {
     attachments,
   });
   log(`delivered ${sessionId} -> ${rec.email} (Resend ${id})`);
+  await addToAudience(rec.email, rec.name);
   ledger.add(sessionId);
   return id;
 }
