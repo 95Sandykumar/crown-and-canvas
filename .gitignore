@@ -48,3 +48,6 @@ images/
 
 # Design files
 *.pen
+
+# Customer order working files (photos, portraits) - never commit
+orders/

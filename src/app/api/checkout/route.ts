@@ -186,6 +186,7 @@ export async function POST(req: NextRequest) {
       success_url: `${baseUrl}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${baseUrl}/checkout`,
       customer_email: email,
+      allow_promotion_codes: true,
       metadata,
     };
 
