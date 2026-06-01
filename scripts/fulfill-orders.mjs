@@ -175,6 +175,35 @@ function reviewHtml(sessionId, name, email, petNames) {
 </div>`;
 }
 
+// ---- remind owner about orders pending approval too long ----
+const REMIND_AFTER_MS = 3 * 3600 * 1000;   // first nudge after 3h pending
+const REMIND_EVERY_MS = 6 * 3600 * 1000;   // then at most every 6h
+async function remindPending(pending) {
+  if (!NOTIFY) return;
+  const now = Date.now();
+  let changed = false;
+  for (const [sid, rec] of Object.entries(pending)) {
+    // stamp legacy entries so they start aging from now (no instant spam)
+    if (!rec.pendingAt) { rec.pendingAt = new Date().toISOString(); changed = true; continue; }
+    const age = now - new Date(rec.pendingAt).getTime();
+    if (age < REMIND_AFTER_MS) continue;
+    const lastRem = rec.lastRemindedAt ? new Date(rec.lastRemindedAt).getTime() : 0;
+    if (now - lastRem < REMIND_EVERY_MS) continue;
+    const hours = Math.floor(age / 3600000);
+    await sendEmail({
+      to: NOTIFY,
+      subject: `⏰ Still awaiting approval (${hours}h): ${rec.name} — ${rec.petNames.join(", ")}`,
+      html: `<p>Order <strong>${sid}</strong> for ${rec.name} &lt;${rec.email}&gt; has been waiting <strong>${hours}h</strong> for your approval. The customer has NOT received their portrait yet.</p>
+             <p>Approve to deliver: <code>node scripts/fulfill-orders.mjs --approve=${sid}</code> or tell your agent "approve ${sid}".</p>`,
+      attachments: [],
+    }).catch(() => {});
+    rec.lastRemindedAt = new Date().toISOString();
+    changed = true;
+    log(`reminded owner: ${sid} pending ${hours}h`);
+  }
+  if (changed) writePending(pending);
+}
+
 // ---- add a delivered customer to the Resend audience (best-effort) ----
 async function addToAudience(email, name) {
   if (!AUDIENCE) return;
@@ -287,12 +316,16 @@ async function main() {
     const reviewAttachments = rec.items.map((it) => ({ filename: it.filename, content: fs.readFileSync(it.outFile).toString("base64") }));
     try {
       const id = await sendEmail({ to: NOTIFY, subject: `🔎 REVIEW: ${name} — ${rec.petNames.join(", ")}`, html: reviewHtml(s.id, name, email, rec.petNames), attachments: reviewAttachments });
+      rec.pendingAt = new Date().toISOString();
       pending[s.id] = rec; writePending(pending);
       log(`  sent to you for review (Resend ${id}); added to pending queue`);
     } catch (e) {
       log(`  REVIEW EMAIL FAILED for ${s.id}: ${e.message} (portrait saved; will retry next run)`);
     }
   }
+
+  // Nudge owner about anything sitting in the approval queue too long
+  if (!DRY) await remindPending(pending);
   log("done (generate).");
 }
 
