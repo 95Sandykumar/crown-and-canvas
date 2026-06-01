@@ -125,6 +125,24 @@ async function handleOrderCompleted(session: Stripe.Checkout.Session) {
       const safeName = escapeHtml(customerName);
       const safeEmail = escapeHtml(customerEmail || "");
 
+      // Build a traffic-source block from attribution metadata (set at checkout)
+      const attributionRows: [string, string | undefined][] = [
+        ["Source", session.metadata?.utmSource],
+        ["Medium", session.metadata?.utmMedium],
+        ["Campaign", session.metadata?.utmCampaign],
+        ["Content", session.metadata?.utmContent],
+        ["Term", session.metadata?.utmTerm],
+        ["Referrer", session.metadata?.referrer],
+        ["Landing page", session.metadata?.landingPath],
+      ];
+      const presentRows = attributionRows.filter(([, v]) => v && v.trim());
+      const attributionHtml =
+        presentRows.length > 0
+          ? `<h3>Traffic Source:</h3><ul>${presentRows
+              .map(([label, v]) => `<li><strong>${label}:</strong> ${escapeHtml(v as string)}</li>`)
+              .join("")}</ul>`
+          : `<p><strong>Traffic Source:</strong> Unknown (direct / untagged visit)</p>`;
+
       await fetch("https://api.resend.com/emails", {
         method: "POST",
         headers: {
@@ -146,6 +164,7 @@ async function handleOrderCompleted(session: Stripe.Checkout.Session) {
             ${giftWrapping ? "<p>Gift Wrapping: Yes</p>" : ""}
             ${rushProcessing ? "<p>Rush Processing: Yes</p>" : ""}
             ${donationCents > 0 ? `<p>Shelter Donation: $${(donationCents / 100).toFixed(2)}</p>` : ""}
+            ${attributionHtml}
             ${shippingAddress ? `
               <h3>Shipping Address:</h3>
               <p>

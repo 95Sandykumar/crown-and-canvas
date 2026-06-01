@@ -22,6 +22,21 @@ const CheckoutItemSchema = z.object({
   quantity: z.number().int().min(1).max(10),
 });
 
+// First-touch attribution captured client-side (see src/lib/attribution.ts).
+// All fields optional — older clients / direct visits may send nothing.
+const AttributionSchema = z
+  .object({
+    utmSource: z.string().max(500).optional(),
+    utmMedium: z.string().max(500).optional(),
+    utmCampaign: z.string().max(500).optional(),
+    utmContent: z.string().max(500).optional(),
+    utmTerm: z.string().max(500).optional(),
+    referrer: z.string().max(500).optional(),
+    landingPath: z.string().max(500).optional(),
+    capturedAt: z.string().max(50).optional(),
+  })
+  .optional();
+
 const CheckoutRequestSchema = z.object({
   items: z.array(CheckoutItemSchema).min(1).max(20),
   email: z.string().email().max(320),
@@ -29,6 +44,7 @@ const CheckoutRequestSchema = z.object({
   donationCents: z.number().int().min(0).max(100_000), // Max $1000 donation
   giftWrapping: z.boolean(),
   rushProcessing: z.boolean(),
+  attribution: AttributionSchema,
 });
 
 export async function POST(req: NextRequest) {
@@ -44,7 +60,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { items, email, name, donationCents, giftWrapping, rushProcessing } = parsed.data;
+    const { items, email, name, donationCents, giftWrapping, rushProcessing, attribution } = parsed.data;
 
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 
@@ -150,6 +166,23 @@ export async function POST(req: NextRequest) {
       rushProcessing: rushProcessing ? "yes" : "no",
       donationCents: String(donationCents),
     };
+
+    // Attribution: write each non-empty field as its own metadata key so the
+    // traffic source is readable at a glance in the Stripe Dashboard.
+    if (attribution) {
+      const attributionFields: Record<string, string | undefined> = {
+        utmSource: attribution.utmSource,
+        utmMedium: attribution.utmMedium,
+        utmCampaign: attribution.utmCampaign,
+        utmContent: attribution.utmContent,
+        utmTerm: attribution.utmTerm,
+        referrer: attribution.referrer,
+        landingPath: attribution.landingPath,
+      };
+      for (const [key, value] of Object.entries(attributionFields)) {
+        if (value && value.trim()) metadata[key] = value.slice(0, 500);
+      }
+    }
 
     // Also keep orderItems for notification email compatibility
     const orderSummary = items.map((item) => {

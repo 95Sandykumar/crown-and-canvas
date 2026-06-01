@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useCart } from "@/hooks/use-cart";
 import { formatPrice } from "@/data/products";
+import { getAttribution } from "@/lib/attribution";
 
 const DONATION_OPTIONS = [
   { amount: 0, label: "No thanks" },
@@ -71,6 +72,7 @@ export default function CheckoutPage() {
           donationCents: effectiveDonation,
           giftWrapping,
           rushProcessing,
+          attribution: getAttribution() ?? undefined,
         }),
       });
 

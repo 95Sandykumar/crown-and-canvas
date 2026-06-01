@@ -3,6 +3,7 @@ import Script from "next/script";
 import { Inter, Playfair_Display } from "next/font/google";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
+import { AttributionTracker } from "@/components/attribution-tracker";
 import { SITE_NAME, SITE_DESCRIPTION } from "@/lib/constants";
 import "./globals.css";
 
@@ -93,6 +94,7 @@ export default function RootLayout({
         />
       </head>
       <body className={`${inter.variable} ${playfair.variable} font-sans antialiased`}>
+        <AttributionTracker />
         <Navbar />
         <main className="min-h-[calc(100vh-4rem)]">{children}</main>
         <Footer />
