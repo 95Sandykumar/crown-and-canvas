@@ -54,58 +54,33 @@ async function handleOrderCompleted(session: Stripe.Checkout.Session) {
     console.log(`[webhook] Ship to: ${shippingName}, ${shippingAddress.line1}, ${shippingAddress.city}, ${shippingAddress.state} ${shippingAddress.postal_code}, ${shippingAddress.country}`);
   }
 
-  // Trigger AI portrait generation for each item
-  const internalSecret = process.env.INTERNAL_API_SECRET;
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
-
-  if (internalSecret && customerEmail) {
-    try {
-      // Reassemble orderData from chunked metadata
-      let orderDataStr = session.metadata?.orderData || "";
-      for (let i = 2; ; i++) {
-        const chunk = session.metadata?.[`orderData${i}`];
-        if (!chunk) break;
-        orderDataStr += chunk;
-      }
-
-      if (orderDataStr) {
-        const orderDataItems: { p: string; s: string; n: string }[] =
-          JSON.parse(orderDataStr);
-        const paymentIntentId =
-          typeof session.payment_intent === "string"
-            ? session.payment_intent
-            : session.payment_intent?.toString() || "unknown";
-
-        for (let i = 0; i < orderDataItems.length; i++) {
-          const item = orderDataItems[i];
-          // Fire-and-forget: each runs in its own serverless invocation
-          fetch(`${baseUrl}/api/generate`, {
-            method: "POST",
-            headers: {
-              Authorization: `Bearer ${internalSecret}`,
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              petPhotoUrl: item.p,
-              styleId: item.s,
-              petName: item.n,
-              paymentIntentId,
-              itemIndex: i,
-              customerEmail,
-              customerName,
-            }),
-          }).catch((err) =>
-            console.error(`[webhook] Failed to trigger generation for item ${i}:`, err)
-          );
-        }
-
-        console.log(
-          `[webhook] Triggered ${orderDataItems.length} portrait generation(s)`
-        );
-      }
-    } catch (genErr) {
-      console.error("[webhook] Failed to parse orderData:", genErr);
+  // Parse uploaded pet photo(s) from order metadata to surface in the owner
+  // notification. Portrait GENERATION is handled by the local fulfillment
+  // worker (scripts/fulfill-orders.mjs), not here. The old /api/generate
+  // (Gemini) fire-and-forget trigger was removed: it ran on every order, and
+  // with no Gemini key it emailed a false "generation failed" alert each time.
+  let photosHtml = "";
+  try {
+    let orderDataStr = session.metadata?.orderData || "";
+    for (let i = 2; ; i++) {
+      const chunk = session.metadata?.[`orderData${i}`];
+      if (!chunk) break;
+      orderDataStr += chunk;
     }
+    if (orderDataStr) {
+      const orderDataItems: { p: string; s: string; n: string }[] = JSON.parse(orderDataStr);
+      photosHtml =
+        `<h3>Pet Photo(s):</h3><ul>` +
+        orderDataItems
+          .map(
+            (it) =>
+              `<li><strong>${escapeHtml(it.n)}</strong> (${escapeHtml(it.s)}): <a href="${escapeHtml(it.p)}">view / download photo</a></li>`
+          )
+          .join("") +
+        `</ul>`;
+    }
+  } catch (parseErr) {
+    console.error("[webhook] Failed to parse orderData for photos:", parseErr);
   }
 
   // Send notification email via Resend (if API key is configured)
@@ -161,6 +136,8 @@ async function handleOrderCompleted(session: Stripe.Checkout.Session) {
             <p><strong>Stripe Payment:</strong> ${escapeHtml(String(session.payment_intent))}</p>
             <h3>Items:</h3>
             <ul>${itemsList}</ul>
+            ${photosHtml}
+            <p style="background:#f0f7ff;padding:10px 14px;border-radius:6px;">🎨 The finished portrait will be emailed to you for review within ~5 minutes (automated). Approve it to deliver to the customer.</p>
             ${giftWrapping ? "<p>Gift Wrapping: Yes</p>" : ""}
             ${rushProcessing ? "<p>Rush Processing: Yes</p>" : ""}
             ${donationCents > 0 ? `<p>Shelter Donation: $${(donationCents / 100).toFixed(2)}</p>` : ""}
