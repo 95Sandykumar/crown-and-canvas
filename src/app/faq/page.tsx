@@ -8,16 +8,20 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { FAQS } from "@/data/faq";
+import { JsonLd } from "@/components/json-ld";
+import { buildFaqPageJsonLd } from "@/lib/structured-data";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "FAQ",
   description: "Frequently asked questions about Crown & Canvas pet royal portraits.",
+  alternates: { canonical: "/faq" },
 };
 
 export default function FAQPage() {
   return (
     <div className="bg-cream min-h-screen">
+      <JsonLd data={buildFaqPageJsonLd(FAQS)} />
       <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
         <div className="text-center space-y-4 mb-12">
           <h1 className="font-serif text-4xl font-bold text-charcoal sm:text-5xl">
