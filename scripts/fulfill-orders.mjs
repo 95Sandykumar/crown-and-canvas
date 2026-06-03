@@ -24,7 +24,32 @@ import { execFileSync } from "child_process";
 const ROOT = process.cwd();
 const HF = path.join(os.homedir(), "higgsfield-bin", "hf.exe");
 const LEDGER = path.join(ROOT, "orders", ".fulfilled.json");
+const LOCKFILE = path.join(ROOT, "orders", ".fulfill.lock");
 const ARGV = process.argv.slice(2);
+
+// --- single-instance lock (prevents PM2 cron from spawning a second
+//     generation run while a long hf.exe job is still in progress) ---
+function acquireLock() {
+  try {
+    // O_EXCL = fail if file exists (atomic create)
+    const fd = fs.openSync(LOCKFILE, "wx");
+    fs.writeSync(fd, String(process.pid));
+    fs.closeSync(fd);
+    return true;
+  } catch {
+    // Lock file exists — check if the PID inside is still alive.
+    try {
+      const pid = parseInt(fs.readFileSync(LOCKFILE, "utf8").trim(), 10);
+      process.kill(pid, 0); // throws if process is dead
+      return false;         // process is alive; back off
+    } catch {
+      // Stale lock (process dead). Remove and retry once.
+      fs.unlinkSync(LOCKFILE);
+      return acquireLock();
+    }
+  }
+}
+function releaseLock() { try { fs.unlinkSync(LOCKFILE); } catch {} }
 const DRY = ARGV.includes("--dry-run");
 const APPROVE = (ARGV.find((a) => a.startsWith("--approve=")) || "").split("=")[1] || null;
 const APPROVE_ALL = ARGV.includes("--approve-all");
@@ -114,13 +139,27 @@ async function downloadTo(url, dest) {
   fs.writeFileSync(dest, Buffer.from(await res.arrayBuffer()));
 }
 function generate(prompt, photoPath) {
+  // Use --json so the result URL comes back as structured JSON instead of
+  // being scraped from human-readable output (fragile regex).
+  // Combine stdout + stderr so we capture all output regardless of which
+  // fd the CLI writes the JSON to.
   const out = execFileSync(
     HF,
-    ["generate", "create", MODEL, "--prompt", prompt, "--image", photoPath, "--wait"],
-    { encoding: "utf8", timeout: 8 * 60 * 1000 }
+    ["generate", "create", MODEL, "--prompt", prompt, "--image", photoPath, "--wait", "--json"],
+    { encoding: "utf8", timeout: 8 * 60 * 1000, stdio: ["ignore", "pipe", "pipe"] }
   );
-  const url = (out.match(/https:\/\/\S+\.png/) || [])[0];
-  if (!url) throw new Error(`No result URL from hf. Output: ${out.slice(0, 500)}`);
+  // Try JSON parse first (preferred path with --json flag).
+  try {
+    const parsed = JSON.parse(out.trim());
+    // Higgsfield returns either { url: "..." } or { outputs: [{ url: "..." }] }
+    const url = parsed.url || parsed?.outputs?.[0]?.url || parsed?.result?.url;
+    if (url) return url;
+  } catch {
+    // JSON parse failed — fall through to regex as backup.
+  }
+  // Fallback: scrape a PNG/WEBP/JPEG URL from raw output (handles old CLI versions).
+  const url = (out.match(/https:\/\/\S+\.(?:png|webp|jpg|jpeg)/) || [])[0];
+  if (!url) throw new Error(`No result URL from hf.exe. Raw output: ${out.slice(0, 600)}`);
   return url;
 }
 
@@ -329,4 +368,12 @@ async function main() {
   log("done (generate).");
 }
 
-main().catch((e) => { console.error("[fulfill] FATAL:", e); process.exit(1); });
+// Skip the lock for read-only / approval sub-commands that never call hf.exe.
+const NEEDS_LOCK = !LIST_PENDING && !DRY;
+if (NEEDS_LOCK && !acquireLock()) {
+  console.log("[fulfill] Another generation run is in progress (lock held). Skipping this cron tick.");
+  process.exit(0);
+}
+main()
+  .catch((e) => { console.error("[fulfill] FATAL:", e); process.exit(1); })
+  .finally(() => { if (NEEDS_LOCK) releaseLock(); });
