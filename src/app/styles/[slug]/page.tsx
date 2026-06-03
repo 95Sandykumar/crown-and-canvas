@@ -19,6 +19,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title: `${style.name} — Custom Pet Portrait`,
     description: style.description,
+    alternates: { canonical: `/styles/${style.slug}` },
     openGraph: {
       title: `${style.name} — Custom Pet Portrait | Crown & Canvas`,
       description: style.description,

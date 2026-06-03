@@ -7,6 +7,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "About Us",
   description: "Learn about Crown & Canvas — transforming beloved pets into stunning royal portraits since 2026.",
+  alternates: { canonical: "/about" },
 };
 
 const values = [
