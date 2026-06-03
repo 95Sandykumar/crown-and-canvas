@@ -44,8 +44,10 @@ export default function AboutPage() {
             Our Story
           </h1>
           <p className="mx-auto max-w-2xl text-lg text-white/70">
-            We believe every pet is royalty. Crown & Canvas was born from a simple idea:
-            give pet owners a way to celebrate their furry companions in the most regal way possible.
+            Crown & Canvas is a custom pet portrait studio that turns your pet&apos;s photo into
+            museum-quality royal artwork, delivered as a digital download in 24-48 hours or a
+            framed print in 5-7 days. Since 2026 we have helped thousands of pet owners (about
+            65% of them buying a portrait as a gift) celebrate their companions as royalty.
           </p>
         </div>
       </section>
