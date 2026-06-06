@@ -232,6 +232,7 @@ export async function POST(req: NextRequest) {
       cancel_url: `${baseUrl}/checkout`,
       ...(customerId ? { customer: customerId } : { customer_email: email }),
       allow_promotion_codes: true,
+      phone_number_collection: { enabled: true },
       metadata,
     };
 

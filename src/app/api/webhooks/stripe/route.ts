@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import { getStripe } from "@/lib/stripe";
 import { escapeHtml } from "@/lib/security";
+import { recordOrder, type OrderSummaryItem, type OrderPhoto } from "@/lib/orders-db";
 
 export async function POST(req: NextRequest) {
   const body = await req.text();
@@ -52,6 +53,28 @@ async function handleOrderCompleted(session: Stripe.Checkout.Session) {
   console.log(`[webhook] Order received: $${amountTotal}, payment: ${session.payment_intent}`);
   if (shippingAddress) {
     console.log(`[webhook] Ship to: ${shippingName}, ${shippingAddress.line1}, ${shippingAddress.city}, ${shippingAddress.state} ${shippingAddress.postal_code}, ${shippingAddress.country}`);
+  }
+
+  // Record the order in Supabase (additive, non-fatal). Stripe stays the source
+  // of truth for payments; this mirror powers order lookups, the dashboard, and
+  // future support tooling. Runs before emails so a mail failure never loses it.
+  try {
+    let orderDataStr = session.metadata?.orderData || "";
+    for (let i = 2; ; i++) {
+      const chunk = session.metadata?.[`orderData${i}`];
+      if (!chunk) break;
+      orderDataStr += chunk;
+    }
+    const photos: OrderPhoto[] = orderDataStr ? JSON.parse(orderDataStr) : [];
+    let summary: OrderSummaryItem[] = [];
+    try {
+      summary = JSON.parse(session.metadata?.orderItems || "[]");
+    } catch {
+      summary = [];
+    }
+    await recordOrder(session, summary, photos);
+  } catch (dbErr) {
+    console.error("[webhook] recordOrder parse failed (non-fatal):", dbErr);
   }
 
   // Parse uploaded pet photo(s) from order metadata to surface in the owner
