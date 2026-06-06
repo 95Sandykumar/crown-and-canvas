@@ -1,0 +1,84 @@
+{
+  "briefs": [
+    {
+      "slug": "pet-memorial-portrait-honoring-a-late-dog-or-cat",
+      "title": "Pet Memorial Portraits: A Gentle Way to Honor a Dog or Cat You've Lost",
+      "keyword": "pet memorial portrait",
+      "audienceAngle": "Grieving older pet owners who want a dignified keepsake of a pet that passed.",
+      "image": "/portraits/royalty-princess/after.webp",
+      "imageAlt": "A regal memorial portrait of a beloved pet",
+      "internalLinks": ["/styles", "/order/upload"],
+      "status": "pending"
+    },
+    {
+      "slug": "best-pet-portrait-gift-from-the-grandchildren",
+      "title": "The Pet Portrait Gift From the Grandkids That Brings Grandparents to Tears",
+      "keyword": "pet portrait gift for grandparents",
+      "audienceAngle": "Adult children/grandchildren buying for an older relative who dotes on their pet.",
+      "image": "/portraits/renaissance-king/after.webp",
+      "imageAlt": "A royal pet portrait given as a heartfelt gift",
+      "internalLinks": ["/styles", "/order/upload"],
+      "status": "pending"
+    },
+    {
+      "slug": "custom-pet-portrait-companion-for-empty-nesters",
+      "title": "Why a Custom Pet Portrait Is the Perfect Keepsake for Empty Nesters",
+      "keyword": "custom pet portrait",
+      "audienceAngle": "Retirees and empty-nesters whose pet is their daily companion.",
+      "image": "/portraits/renaissance-queen/after.webp",
+      "imageAlt": "An elegant custom portrait of a companion pet",
+      "internalLinks": ["/styles", "/about"],
+      "status": "pending"
+    },
+    {
+      "slug": "how-to-choose-a-photo-for-your-pet-portrait",
+      "title": "How to Choose the Perfect Photo for Your Pet's Portrait (Simple Guide)",
+      "keyword": "best photo for pet portrait",
+      "audienceAngle": "Less tech-savvy buyers who need clear, reassuring, large-text guidance.",
+      "image": "/portraits/renaissance-scholar/after.webp",
+      "imageAlt": "A pet portrait created from a clear reference photo",
+      "internalLinks": ["/faq", "/order/upload"],
+      "status": "pending"
+    },
+    {
+      "slug": "renaissance-pet-portraits-explained",
+      "title": "Renaissance Pet Portraits: Turn Your Dog or Cat Into Royalty",
+      "keyword": "renaissance pet portrait",
+      "audienceAngle": "Classic, traditional buyers drawn to old-master art styles.",
+      "image": "/portraits/renaissance-duke/after.webp",
+      "imageAlt": "A Renaissance-style royal pet portrait",
+      "internalLinks": ["/styles/renaissance-king", "/order/upload"],
+      "status": "pending"
+    },
+    {
+      "slug": "pet-portrait-for-mothers-day-from-the-dog",
+      "title": "A Pet Portrait for Mother's Day, 'From the Dog' (She'll Love It)",
+      "keyword": "pet portrait mothers day gift",
+      "audienceAngle": "Gifting a portrait to an older mother/grandmother on behalf of her pet.",
+      "image": "/portraits/royalty-empress/after.webp",
+      "imageAlt": "A Mother's Day pet portrait gift",
+      "internalLinks": ["/styles", "/order/upload"],
+      "status": "pending"
+    },
+    {
+      "slug": "framed-vs-canvas-pet-portrait-which-to-choose",
+      "title": "Framed or Canvas Pet Portrait? A Plain-English Guide to Choosing",
+      "keyword": "framed vs canvas pet portrait",
+      "audienceAngle": "Buyers comparing physical product tiers who want a clear recommendation.",
+      "image": "/portraits/military-general/after.webp",
+      "imageAlt": "A framed and a canvas pet portrait side by side",
+      "internalLinks": ["/styles", "/order/upload"],
+      "status": "pending"
+    },
+    {
+      "slug": "pet-portrait-as-a-sympathy-gift-for-pet-loss",
+      "title": "Pet Loss Sympathy Gifts: Why a Portrait Comforts More Than Flowers",
+      "keyword": "pet loss sympathy gift",
+      "audienceAngle": "People comforting an older friend/relative grieving a pet.",
+      "image": "/portraits/royalty-prince/after.webp",
+      "imageAlt": "A comforting memorial pet portrait",
+      "internalLinks": ["/styles", "/order/upload"],
+      "status": "pending"
+    }
+  ]
+}
