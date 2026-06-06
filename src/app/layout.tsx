@@ -65,7 +65,7 @@ const organizationJsonLd = {
   contactPoint: {
     "@type": "ContactPoint",
     contactType: "customer service",
-    email: "support@crownandcanvas.us",
+    email: "hello@crownandcanvas.us",
   },
 };
 

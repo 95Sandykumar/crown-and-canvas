@@ -234,11 +234,11 @@ POST /api/generate (secured by INTERNAL_API_SECRET)
 | `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | `pk_live_...` | LIVE |
 | `STRIPE_SECRET_KEY` | `sk_live_...` | LIVE |
 | `STRIPE_WEBHOOK_SECRET` | `whsec_...` | Needs webhook endpoint configured |
-| `NEXT_PUBLIC_APP_URL` | `https://yourdomain.com` | Update after custom domain |
+| `NEXT_PUBLIC_APP_URL` | `https://crownandcanvas.us` | LIVE — custom domain connected |
 | `BLOB_READ_WRITE_TOKEN` | `vercel_blob_...` | NOT SET — create Blob store in Vercel |
 | `INTERNAL_API_SECRET` | _(set in Vercel Dashboard — generate with `openssl rand -hex 32`)_ | Rotated — never commit actual value |
 | `RESEND_API_KEY` | `re_...` | Set up, using onboarding@resend.dev |
-| `RESEND_FROM_EMAIL` | `Crown & Canvas <orders@yourdomain.com>` | Update after domain verified in Resend |
+| `RESEND_FROM_EMAIL` | `Crown & Canvas <orders@crownandcanvas.us>` | LIVE — domain verified in Resend (sending enabled) |
 | `ORDER_NOTIFICATION_EMAIL` | your personal email | Where you receive new order alerts |
 | `GOOGLE_AI_API_KEY` | _(leave blank for now)_ | Set when ready for auto-generation |
 
@@ -506,3 +506,32 @@ When you have a focused block of time, pick one of these:
 ---
 
 *Last updated: February 2026. This is the single source of truth for Crown & Canvas operations.*
+
+---
+
+## Agent System Integration
+
+This project is managed by Rex (ceo) under the Modi orchestration system.
+Project ID: crown-and-canvas
+
+### After Every Work Session
+When you complete work in this folder, create a sync file at:
+`c:\Users\95san\Documents\AI & Business\builder\claudeclaw\hq\sync\incoming\crown-and-canvas-TIMESTAMP.json`
+
+Where TIMESTAMP is the current unix timestamp in milliseconds (Date.now()).
+
+JSON format:
+```json
+{
+  "project": "crown-and-canvas",
+  "ceo": "ceo",
+  "timestamp": "ISO-8601 datetime",
+  "source": "boss_direct",
+  "changes": ["summary of each change made"],
+  "files_modified": ["relative/path/to/file.ts"],
+  "decisions": ["any decisions made during session"],
+  "blockers_resolved": ["blockers that were fixed"],
+  "blockers_created": ["new blockers discovered"],
+  "next_steps": ["what should happen next"]
+}
+```

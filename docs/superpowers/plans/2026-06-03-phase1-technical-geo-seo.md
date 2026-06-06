@@ -151,7 +151,7 @@ Replace the entire contents of `src/app/robots.ts`:
 ```ts
 import { MetadataRoute } from "next";
 
-const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || "https://crownandcanvas.com";
+const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || "https://crownandcanvas.us";
 
 // Bots that power AI answer engines + search. We explicitly allow them so
 // Crown & Canvas can be crawled, indexed, and cited in AI-generated answers.
@@ -206,7 +206,7 @@ Create `public/llms.txt`:
 - Luxury Framed: museum-quality wood frame, $99.99-$149.99
 
 ## Contact
-- Email: hello@crownandcanvas.com
+- Email: hello@crownandcanvas.us
 ```
 
 - [ ] **Step 6: Commit**
@@ -293,7 +293,7 @@ Create `src/lib/structured-data.ts`:
 ```ts
 import type { FAQ, Testimonial } from "@/types";
 
-const DEFAULT_SITE_URL = process.env.NEXT_PUBLIC_APP_URL || "https://crownandcanvas.com";
+const DEFAULT_SITE_URL = process.env.NEXT_PUBLIC_APP_URL || "https://crownandcanvas.us";
 
 /**
  * FAQPage schema. Lets Google show FAQ rich results and gives AI engines

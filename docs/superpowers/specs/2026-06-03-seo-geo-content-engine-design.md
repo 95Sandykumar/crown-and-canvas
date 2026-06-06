@@ -8,7 +8,7 @@
 
 ## Goal
 
-Drive more qualified traffic ("footfall") and orders to crownandcanvas.com by:
+Drive more qualified traffic ("footfall") and orders to crownandcanvas.us by:
 
 1. Making every page maximally **rankable in Google** and **citable by generative engines** (ChatGPT, Perplexity, Gemini, Google AI Overviews). This is GEO = Generative Engine Optimization.
 2. Running a **fully-automatic content engine** that publishes new SEO/GEO articles on a schedule and refreshes old ones ("keep rotating"), using the existing ClaudeClaw agent system.
