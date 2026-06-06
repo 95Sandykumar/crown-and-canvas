@@ -15,7 +15,7 @@ import { markdownToHtml } from "@/lib/markdown";
 import { SITE_NAME } from "@/lib/constants";
 import type { Metadata } from "next";
 
-const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || "https://crownandcanvas.com";
+const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || "https://crownandcanvas.us";
 
 interface BlogPostPageProps {
   readonly params: Promise<{ slug: string }>;

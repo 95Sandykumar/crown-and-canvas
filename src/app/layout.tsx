@@ -18,7 +18,7 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "https://crownandcanvas.com"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "https://crownandcanvas.us"),
   title: {
     default: `${SITE_NAME} | Custom Pet Royal Portraits`,
     template: `%s | ${SITE_NAME}`,
@@ -59,13 +59,13 @@ const organizationJsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
   name: SITE_NAME,
-  url: process.env.NEXT_PUBLIC_APP_URL || "https://crownandcanvas.com",
-  logo: `${process.env.NEXT_PUBLIC_APP_URL || "https://crownandcanvas.com"}/portraits/renaissance-king/after.webp`,
+  url: process.env.NEXT_PUBLIC_APP_URL || "https://crownandcanvas.us",
+  logo: `${process.env.NEXT_PUBLIC_APP_URL || "https://crownandcanvas.us"}/portraits/renaissance-king/after.webp`,
   description: SITE_DESCRIPTION,
   contactPoint: {
     "@type": "ContactPoint",
     contactType: "customer service",
-    email: "support@crownandcanvas.com",
+    email: "support@crownandcanvas.us",
   },
 };
 
@@ -73,7 +73,7 @@ const webSiteJsonLd = {
   "@context": "https://schema.org",
   "@type": "WebSite",
   name: SITE_NAME,
-  url: process.env.NEXT_PUBLIC_APP_URL || "https://crownandcanvas.com",
+  url: process.env.NEXT_PUBLIC_APP_URL || "https://crownandcanvas.us",
 };
 
 export default function RootLayout({

@@ -2,7 +2,7 @@ import { MetadataRoute } from "next";
 import { PORTRAIT_STYLES } from "@/data/styles";
 import { getAllBlogPosts } from "@/lib/blog";
 
-const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || "https://crownandcanvas.com";
+const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || "https://crownandcanvas.us";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes: MetadataRoute.Sitemap = [

@@ -230,7 +230,7 @@ export default function TermsOfServicePage() {
           <Section title="14. Contact Us">
             <p>For questions about these Terms of Service, contact us at:</p>
             <ul>
-              <li><strong>Email:</strong> hello@crownandcanvas.com</li>
+              <li><strong>Email:</strong> hello@crownandcanvas.us</li>
               <li><strong>Subject line:</strong> Terms of Service Inquiry</li>
             </ul>
           </Section>

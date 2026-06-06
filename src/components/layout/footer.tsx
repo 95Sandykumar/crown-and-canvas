@@ -43,18 +43,18 @@ export function Footer() {
           <div className="space-y-4">
             <h3 className="text-sm font-semibold uppercase tracking-wider text-gold">Connect</h3>
             <div className="flex gap-4">
-              <a href="#" className="text-white/60 hover:text-white transition-colors" aria-label="Instagram">
+              <a href="https://www.instagram.com/crownandcanvas.us" target="_blank" rel="noopener noreferrer" className="text-white/60 hover:text-white transition-colors" aria-label="Instagram">
                 <Instagram className="h-5 w-5" />
               </a>
               <a href="#" className="text-white/60 hover:text-white transition-colors" aria-label="Facebook">
                 <Facebook className="h-5 w-5" />
               </a>
-              <a href="#" className="text-white/60 hover:text-white transition-colors" aria-label="Email">
+              <a href="mailto:hello@crownandcanvas.us" className="text-white/60 hover:text-white transition-colors" aria-label="Email">
                 <Mail className="h-5 w-5" />
               </a>
             </div>
             <p className="text-sm text-white/60">
-              hello@crownandcanvas.com
+              hello@crownandcanvas.us
             </p>
           </div>
         </div>

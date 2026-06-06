@@ -1,6 +1,6 @@
 import { MetadataRoute } from "next";
 
-const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || "https://crownandcanvas.com";
+const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || "https://crownandcanvas.us";
 
 // Bots that power AI answer engines + search. We explicitly allow them so
 // Crown & Canvas can be crawled, indexed, and cited in AI-generated answers.

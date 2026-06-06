@@ -175,7 +175,7 @@ export default function PrivacyPolicyPage() {
           <Section title="12. Contact Us">
             <p>If you have questions about this Privacy Policy or wish to exercise your data rights, contact us at:</p>
             <ul>
-              <li><strong>Email:</strong> hello@crownandcanvas.com</li>
+              <li><strong>Email:</strong> hello@crownandcanvas.us</li>
               <li><strong>Subject line:</strong> Privacy Request</li>
             </ul>
             <p>We will respond to all privacy-related requests within 30 days.</p>

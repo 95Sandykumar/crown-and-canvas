@@ -36,7 +36,7 @@ export default async function StyleDetailPage({ params }: { params: Promise<{ sl
     notFound();
   }
 
-  const siteUrl = process.env.NEXT_PUBLIC_APP_URL || "https://crownandcanvas.com";
+  const siteUrl = process.env.NEXT_PUBLIC_APP_URL || "https://crownandcanvas.us";
 
   const productJsonLd = {
     "@context": "https://schema.org",

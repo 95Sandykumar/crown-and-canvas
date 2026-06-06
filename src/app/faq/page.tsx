@@ -58,7 +58,7 @@ export default function FAQPage() {
             We&apos;re here to help! Reach out and we&apos;ll get back to you within 24 hours.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <a href="mailto:hello@crownandcanvas.com">
+            <a href="mailto:hello@crownandcanvas.us">
               <Button size="lg" className="bg-gold hover:bg-gold-light text-charcoal font-semibold px-8 py-6">
                 Contact Us
               </Button>

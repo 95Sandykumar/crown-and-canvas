@@ -1,6 +1,6 @@
 import type { FAQ, Testimonial } from "@/types";
 
-const DEFAULT_SITE_URL = process.env.NEXT_PUBLIC_APP_URL || "https://crownandcanvas.com";
+const DEFAULT_SITE_URL = process.env.NEXT_PUBLIC_APP_URL || "https://crownandcanvas.us";
 
 /**
  * FAQPage schema. Lets Google show FAQ rich results and gives AI engines
