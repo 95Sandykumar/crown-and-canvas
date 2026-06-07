@@ -51,3 +51,6 @@ images/
 
 # Customer order working files (photos, portraits) - never commit
 orders/
+
+# Rendered Instagram reels (regenerated on demand)
+out/

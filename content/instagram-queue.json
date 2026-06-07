@@ -1,0 +1,323 @@
+{
+  "posts": [
+    {
+      "id": "why-dog-tilts-head",
+      "category": "Behavior",
+      "question": "Why does my dog tilt its head when I talk?",
+      "answer": "It helps them pinpoint your voice and read your tone. A head tilt means they're locked in on you.",
+      "hook": "Ever wondered why?",
+      "cta": "Follow @crownandcanvas for daily pet answers",
+      "image": "/portraits/renaissance-king/after.webp",
+      "status": "pending",
+      "postedAt": null
+    },
+    {
+      "id": "why-dog-follows-me-everywhere",
+      "category": "Behavior",
+      "question": "Why does my dog follow me everywhere?",
+      "answer": "You're their safe place and their pack. Velcro behavior is usually deep attachment, not anxiety.",
+      "hook": "Your shadow has four legs.",
+      "cta": "Follow @crownandcanvas for daily pet answers",
+      "image": "/portraits/royalty-prince/after.webp",
+      "status": "pending",
+      "postedAt": null
+    },
+    {
+      "id": "why-dog-licks-me",
+      "category": "Behavior",
+      "question": "Why does my dog lick me so much?",
+      "answer": "Licking is how dogs show affection, ask for attention, and taste the salt on your skin. It's love.",
+      "hook": "The morning kisses, explained.",
+      "cta": "Follow @crownandcanvas for daily pet answers",
+      "image": "/portraits/renaissance-queen/after.webp",
+      "status": "pending",
+      "postedAt": null
+    },
+    {
+      "id": "why-cat-kneads",
+      "category": "Behavior",
+      "question": "Why does my cat knead me with its paws?",
+      "answer": "Kneading is a leftover kitten comfort habit. When they do it on you, they feel safe and content.",
+      "hook": "Making biscuits, decoded.",
+      "cta": "Follow @crownandcanvas for daily pet answers",
+      "image": "/portraits/royalty-empress/after.webp",
+      "status": "pending",
+      "postedAt": null
+    },
+    {
+      "id": "why-cat-slow-blinks",
+      "category": "Behavior",
+      "question": "What does it mean when my cat slow-blinks at me?",
+      "answer": "A slow blink is a cat's way of saying 'I trust you.' Blink slowly back to say it in return.",
+      "hook": "It's basically a cat kiss.",
+      "cta": "Follow @crownandcanvas for daily pet answers",
+      "image": "/portraits/royalty-princess/after.webp",
+      "status": "pending",
+      "postedAt": null
+    },
+    {
+      "id": "why-cat-zoomies",
+      "category": "Behavior",
+      "question": "Why does my cat get the zoomies at night?",
+      "answer": "Cats are wired to hunt at dawn and dusk. Nighttime sprints burn off that built-up prey energy.",
+      "hook": "3am race car, every night.",
+      "cta": "Follow @crownandcanvas for daily pet answers",
+      "image": "/portraits/modern-superhero/after.webp",
+      "status": "pending",
+      "postedAt": null
+    },
+    {
+      "id": "why-cat-brings-gifts",
+      "category": "Behavior",
+      "question": "Why does my cat bring me 'gifts'?",
+      "answer": "Your cat sees you as family and shares the hunt. It's a strange but real sign of trust.",
+      "hook": "A questionable present.",
+      "cta": "Follow @crownandcanvas for daily pet answers",
+      "image": "/portraits/military-general/after.webp",
+      "status": "pending",
+      "postedAt": null
+    },
+    {
+      "id": "why-dog-eats-grass",
+      "category": "Health basics",
+      "question": "Why does my dog eat grass?",
+      "answer": "Usually normal: boredom, taste, or fiber. See a vet only if it comes with frequent vomiting.",
+      "hook": "Salad bar at the park.",
+      "cta": "Follow @crownandcanvas for daily pet answers",
+      "image": "/portraits/modern-chef/after.webp",
+      "status": "pending",
+      "postedAt": null
+    },
+    {
+      "id": "human-foods-toxic-to-dogs",
+      "category": "Health basics",
+      "question": "What human foods are dangerous for dogs?",
+      "answer": "Chocolate, grapes, raisins, onions, garlic, and xylitol can be toxic. Keep them well out of reach.",
+      "hook": "Save this one.",
+      "cta": "Follow @crownandcanvas for daily pet answers",
+      "image": "/portraits/modern-cowboy/after.webp",
+      "status": "pending",
+      "postedAt": null
+    },
+    {
+      "id": "how-often-vet-checkup",
+      "category": "Health basics",
+      "question": "How often should my pet see the vet?",
+      "answer": "Healthy adults: once a year. Puppies, kittens, and seniors: every 6 months to catch issues early.",
+      "hook": "Mark your calendar.",
+      "cta": "Follow @crownandcanvas for daily pet answers",
+      "image": "/portraits/renaissance-scholar/after.webp",
+      "status": "pending",
+      "postedAt": null
+    },
+    {
+      "id": "why-dog-shaking-paw-licking",
+      "category": "Health basics",
+      "question": "Why does my dog keep licking its paws?",
+      "answer": "Occasional licking is grooming. Constant licking can mean allergies, dry skin, or anxiety. Watch it.",
+      "hook": "When to worry.",
+      "cta": "Follow @crownandcanvas for daily pet answers",
+      "image": "/portraits/military-colonel/after.webp",
+      "status": "pending",
+      "postedAt": null
+    },
+    {
+      "id": "how-to-brush-dog-teeth",
+      "category": "Health basics",
+      "question": "Do I really need to brush my dog's teeth?",
+      "answer": "Yes. Dental disease is one of the most common pet health issues. A few brushes a week makes a difference.",
+      "hook": "The step most owners skip.",
+      "cta": "Follow @crownandcanvas for daily pet answers",
+      "image": "/portraits/military-admiral/after.webp",
+      "status": "pending",
+      "postedAt": null
+    },
+    {
+      "id": "how-to-stop-puppy-biting",
+      "category": "Training",
+      "question": "How do I stop my puppy from biting?",
+      "answer": "Yelp 'ouch,' stop play for a moment, then redirect to a toy. Consistency teaches a soft mouth fast.",
+      "hook": "Those needle teeth, handled.",
+      "cta": "Follow @crownandcanvas for daily pet answers",
+      "image": "/portraits/fantasy-knight/after.webp",
+      "status": "pending",
+      "postedAt": null
+    },
+    {
+      "id": "how-to-crate-train",
+      "category": "Training",
+      "question": "How do I get my dog to love the crate?",
+      "answer": "Feed meals inside, toss treats in, never use it as punishment. Make the crate the best room in the house.",
+      "hook": "Crate training, simplified.",
+      "cta": "Follow @crownandcanvas for daily pet answers",
+      "image": "/portraits/fantasy-wizard/after.webp",
+      "status": "pending",
+      "postedAt": null
+    },
+    {
+      "id": "how-to-stop-leash-pulling",
+      "category": "Training",
+      "question": "How do I stop my dog from pulling on the leash?",
+      "answer": "Stop walking the moment they pull, reward a loose leash. Pulling never moves them forward.",
+      "hook": "Take back the walk.",
+      "cta": "Follow @crownandcanvas for daily pet answers",
+      "image": "/portraits/military-pilot/after.webp",
+      "status": "pending",
+      "postedAt": null
+    },
+    {
+      "id": "how-long-train-recall",
+      "category": "Training",
+      "question": "How do I teach a reliable recall?",
+      "answer": "Make coming to you the best thing ever: high-value treats, happy voice, never call them for something bad.",
+      "hook": "Come when called, every time.",
+      "cta": "Follow @crownandcanvas for daily pet answers",
+      "image": "/portraits/fantasy-dragon-rider/after.webp",
+      "status": "pending",
+      "postedAt": null
+    },
+    {
+      "id": "crate-training-vs-free-roam",
+      "category": "Training",
+      "question": "Should I let my new puppy roam the house?",
+      "answer": "Not at first. A small, safe space prevents accidents and builds good habits before you give freedom.",
+      "hook": "Freedom is earned.",
+      "cta": "Follow @crownandcanvas for daily pet answers",
+      "image": "/portraits/renaissance-duke/after.webp",
+      "status": "pending",
+      "postedAt": null
+    },
+    {
+      "id": "how-much-to-feed-dog",
+      "category": "Nutrition",
+      "question": "How much should I feed my dog?",
+      "answer": "Start with the bag's guide for their goal weight, then adjust by body shape. You should feel ribs, not see them.",
+      "hook": "Portion sizes, demystified.",
+      "cta": "Follow @crownandcanvas for daily pet answers",
+      "image": "/portraits/royalty-emperor/after.webp",
+      "status": "pending",
+      "postedAt": null
+    },
+    {
+      "id": "wet-vs-dry-food",
+      "category": "Nutrition",
+      "question": "Wet food or dry food for my cat?",
+      "answer": "Both work. Wet food adds hydration, dry is convenient. Many owners mix them. Ask your vet for the ideal ratio.",
+      "hook": "The great food debate.",
+      "cta": "Follow @crownandcanvas for daily pet answers",
+      "image": "/portraits/modern-dj/after.webp",
+      "status": "pending",
+      "postedAt": null
+    },
+    {
+      "id": "how-many-treats-okay",
+      "category": "Nutrition",
+      "question": "How many treats are too many?",
+      "answer": "Keep treats under 10% of daily calories. The rest should come from balanced meals.",
+      "hook": "The 10% rule.",
+      "cta": "Follow @crownandcanvas for daily pet answers",
+      "image": "/portraits/modern-astronaut/after.webp",
+      "status": "pending",
+      "postedAt": null
+    },
+    {
+      "id": "can-dogs-eat-peanut-butter",
+      "category": "Nutrition",
+      "question": "Can dogs eat peanut butter?",
+      "answer": "Yes, in small amounts, but check the label first. If it lists xylitol, it's toxic. Avoid those brands.",
+      "hook": "Check the label.",
+      "cta": "Follow @crownandcanvas for daily pet answers",
+      "image": "/portraits/modern-chef/after.webp",
+      "status": "pending",
+      "postedAt": null
+    },
+    {
+      "id": "is-it-normal-dog-sleeps-all-day",
+      "category": "Is this normal?",
+      "question": "Is it normal for my dog to sleep all day?",
+      "answer": "Yes. Adult dogs sleep 12 to 14 hours, puppies and seniors even more. Watch for sudden changes, not the naps.",
+      "hook": "Professional napper.",
+      "cta": "Follow @crownandcanvas for daily pet answers",
+      "image": "/portraits/fantasy-wizard/after.webp",
+      "status": "pending",
+      "postedAt": null
+    },
+    {
+      "id": "why-cat-sleeps-weird-positions",
+      "category": "Is this normal?",
+      "question": "Why does my cat sleep in such weird positions?",
+      "answer": "Totally normal. Cats are flexible and only contort like that when they feel completely safe.",
+      "hook": "How is that comfortable?",
+      "cta": "Follow @crownandcanvas for daily pet answers",
+      "image": "/portraits/royalty-princess/after.webp",
+      "status": "pending",
+      "postedAt": null
+    },
+    {
+      "id": "why-dog-eats-poop",
+      "category": "Is this normal?",
+      "question": "Why does my dog eat poop and how do I stop it?",
+      "answer": "Common and usually harmless behavior. Pick up promptly, keep them busy, and ask a vet to rule out diet gaps.",
+      "hook": "Gross, but common.",
+      "cta": "Follow @crownandcanvas for daily pet answers",
+      "image": "/portraits/military-general/after.webp",
+      "status": "pending",
+      "postedAt": null
+    },
+    {
+      "id": "why-dog-scoots-bottom",
+      "category": "Is this normal?",
+      "question": "Why does my dog scoot its bottom on the floor?",
+      "answer": "Often full anal glands, sometimes worms or itch. If it keeps up, a quick vet visit sorts it out.",
+      "hook": "The carpet drag, explained.",
+      "cta": "Follow @crownandcanvas for daily pet answers",
+      "image": "/portraits/modern-cowboy/after.webp",
+      "status": "pending",
+      "postedAt": null
+    },
+    {
+      "id": "do-pets-grieve",
+      "category": "Gifting & keepsakes",
+      "question": "Do pets remember us when we're gone?",
+      "answer": "Yes. Pets form deep bonds and clearly recognize the people they love, even after long time apart.",
+      "hook": "They never forget you.",
+      "cta": "Follow @crownandcanvas for daily pet answers",
+      "image": "/portraits/renaissance-king/after.webp",
+      "status": "pending",
+      "postedAt": null
+    },
+    {
+      "id": "best-way-honor-pet-passed",
+      "category": "Gifting & keepsakes",
+      "question": "What's a meaningful way to honor a pet who passed?",
+      "answer": "Many families keep a custom portrait so their companion stays a part of the home. A gentle, lasting keepsake.",
+      "hook": "Keeping them close.",
+      "cta": "Follow @crownandcanvas for daily pet answers",
+      "image": "/portraits/royalty-empress/after.webp",
+      "status": "pending",
+      "postedAt": null
+    },
+    {
+      "id": "best-gift-for-pet-lover",
+      "category": "Gifting & keepsakes",
+      "question": "What's the best gift for a pet lover?",
+      "answer": "Something personal. A portrait of their pet beats another mug. 65% of these are bought as gifts for a reason.",
+      "hook": "Gift idea that lands.",
+      "cta": "Follow @crownandcanvas for daily pet answers",
+      "image": "/portraits/renaissance-queen/after.webp",
+      "status": "pending",
+      "postedAt": null
+    },
+    {
+      "id": "how-to-take-good-pet-photo",
+      "category": "Gifting & keepsakes",
+      "question": "How do I take a great photo of my pet?",
+      "answer": "Natural light, get down to their eye level, and use a treat to catch their attention just above the lens.",
+      "hook": "Photographer-level tips.",
+      "cta": "Follow @crownandcanvas for daily pet answers",
+      "image": "/portraits/renaissance-scholar/after.webp",
+      "status": "pending",
+      "postedAt": null
+    }
+  ]
+}

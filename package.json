@@ -8,10 +8,16 @@
     "start": "next start",
     "lint": "eslint",
     "test": "node node_modules/vitest/vitest.mjs run",
-    "test:watch": "node node_modules/vitest/vitest.mjs"
+    "test:watch": "node node_modules/vitest/vitest.mjs",
+    "ig:studio": "remotion studio remotion/index.ts",
+    "ig:render": "node scripts/post-instagram.mjs --render-only",
+    "ig:doc": "node scripts/build-questions-doc.mjs"
   },
   "dependencies": {
     "@google/genai": "^1.41.0",
+    "@remotion/bundler": "^4.0.473",
+    "@remotion/cli": "^4.0.473",
+    "@remotion/renderer": "^4.0.473",
     "@stripe/stripe-js": "^8.7.0",
     "@supabase/supabase-js": "^2.107.0",
     "@vercel/blob": "^2.2.0",
@@ -25,6 +31,7 @@
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "reading-time": "^1.5.0",
+    "remotion": "^4.0.473",
     "stripe": "^20.3.1",
     "tailwind-merge": "^3.4.0",
     "zod": "^4.3.6",

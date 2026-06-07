@@ -28,6 +28,19 @@
 - [ ] Set `ORDER_NOTIFICATION_EMAIL` so you receive order alerts
 - [ ] Consider making GitHub repo private (old secret in git history)
 
+## Instagram Reel Pipeline (built — needs credentials to go live)
+Daily 2x autonomous reels answering pet-parent questions. Code: `remotion/DailyPost.tsx`
+(fixed template), `content/instagram-queue.json` (question backlog), `scripts/post-instagram.mjs`
+(render → Blob → Graph API), `.github/workflows/instagram-post.yml` (cron). Backlog view:
+`INSTAGRAM-QUESTIONS.md` (regenerate with `npm run ig:doc`).
+- [ ] Switch Instagram to a **Business/Creator** account linked to a Facebook Page
+- [ ] Create Meta app (`instagram_basic` + `instagram_content_publish` + `pages_show_list`); add repo secrets `IG_USER_ID`, `IG_ACCESS_TOKEN` (long-lived)
+- [ ] Add repo secret `BLOB_READ_WRITE_TOKEN` (same Blob store as orders)
+- [ ] Drop a commercial-use royalty-free track at `public/audio/hook.mp3`
+- [ ] Confirm Remotion license tier for the business
+- [ ] Dry-run via Actions → "Instagram daily reel" → Run workflow, verify it posts
+- [ ] (Recurring) refresh `IG_ACCESS_TOKEN` ~every 60 days
+
 ## Future Features
 - [ ] AI generation pipeline activation (set `GOOGLE_AI_API_KEY`)
 - [ ] Prodigi print-on-demand integration for canvas/framed orders
