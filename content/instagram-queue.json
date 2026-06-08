@@ -12,6 +12,72 @@
       "postedAt": null
     },
     {
+      "id": "how-to-stop-leash-pulling",
+      "category": "Training",
+      "question": "How do I stop my dog from pulling on the leash?",
+      "answer": "Stop walking the moment they pull, reward a loose leash. Pulling never moves them forward.",
+      "hook": "Take back the walk.",
+      "cta": "Follow @crownandcanvas for daily pet answers",
+      "image": "/portraits/military-pilot/after.webp",
+      "status": "pending",
+      "postedAt": null
+    },
+    {
+      "id": "human-foods-toxic-to-dogs",
+      "category": "Health basics",
+      "question": "What human foods are dangerous for dogs?",
+      "answer": "Chocolate, grapes, raisins, onions, garlic, and xylitol can be toxic. Keep them well out of reach.",
+      "hook": "Save this one.",
+      "cta": "Follow @crownandcanvas for daily pet answers",
+      "image": "/portraits/modern-cowboy/after.webp",
+      "status": "pending",
+      "postedAt": null
+    },
+    {
+      "id": "how-many-treats-okay",
+      "category": "Nutrition",
+      "question": "How many treats are too many?",
+      "answer": "Keep treats under 10% of daily calories. The rest should come from balanced meals.",
+      "hook": "The 10% rule.",
+      "cta": "Follow @crownandcanvas for daily pet answers",
+      "image": "/portraits/modern-astronaut/after.webp",
+      "status": "pending",
+      "postedAt": null
+    },
+    {
+      "id": "why-cat-sleeps-weird-positions",
+      "category": "Is this normal?",
+      "question": "Why does my cat sleep in such weird positions?",
+      "answer": "Totally normal. Cats are flexible and only contort like that when they feel completely safe.",
+      "hook": "How is that comfortable?",
+      "cta": "Follow @crownandcanvas for daily pet answers",
+      "image": "/portraits/royalty-princess/after.webp",
+      "status": "pending",
+      "postedAt": null
+    },
+    {
+      "id": "best-gift-for-pet-lover",
+      "category": "Gifting & keepsakes",
+      "question": "What's the best gift for a pet lover?",
+      "answer": "Something personal. A portrait of their pet beats another mug. 65% of these are bought as gifts for a reason.",
+      "hook": "Gift idea that lands.",
+      "cta": "Follow @crownandcanvas for daily pet answers",
+      "image": "/portraits/renaissance-queen/after.webp",
+      "status": "pending",
+      "postedAt": null
+    },
+    {
+      "id": "why-cat-slow-blinks",
+      "category": "Behavior",
+      "question": "What does it mean when my cat slow-blinks at me?",
+      "answer": "A slow blink is a cat's way of saying 'I trust you.' Blink slowly back to say it in return.",
+      "hook": "It's basically a cat kiss.",
+      "cta": "Follow @crownandcanvas for daily pet answers",
+      "image": "/portraits/royalty-princess/after.webp",
+      "status": "pending",
+      "postedAt": null
+    },
+    {
       "id": "why-dog-follows-me-everywhere",
       "category": "Behavior",
       "question": "Why does my dog follow me everywhere?",
@@ -45,17 +111,6 @@
       "postedAt": null
     },
     {
-      "id": "why-cat-slow-blinks",
-      "category": "Behavior",
-      "question": "What does it mean when my cat slow-blinks at me?",
-      "answer": "A slow blink is a cat's way of saying 'I trust you.' Blink slowly back to say it in return.",
-      "hook": "It's basically a cat kiss.",
-      "cta": "Follow @crownandcanvas for daily pet answers",
-      "image": "/portraits/royalty-princess/after.webp",
-      "status": "pending",
-      "postedAt": null
-    },
-    {
       "id": "why-cat-zoomies",
       "category": "Behavior",
       "question": "Why does my cat get the zoomies at night?",
@@ -85,17 +140,6 @@
       "hook": "Salad bar at the park.",
       "cta": "Follow @crownandcanvas for daily pet answers",
       "image": "/portraits/modern-chef/after.webp",
-      "status": "pending",
-      "postedAt": null
-    },
-    {
-      "id": "human-foods-toxic-to-dogs",
-      "category": "Health basics",
-      "question": "What human foods are dangerous for dogs?",
-      "answer": "Chocolate, grapes, raisins, onions, garlic, and xylitol can be toxic. Keep them well out of reach.",
-      "hook": "Save this one.",
-      "cta": "Follow @crownandcanvas for daily pet answers",
-      "image": "/portraits/modern-cowboy/after.webp",
       "status": "pending",
       "postedAt": null
     },
@@ -155,17 +199,6 @@
       "postedAt": null
     },
     {
-      "id": "how-to-stop-leash-pulling",
-      "category": "Training",
-      "question": "How do I stop my dog from pulling on the leash?",
-      "answer": "Stop walking the moment they pull, reward a loose leash. Pulling never moves them forward.",
-      "hook": "Take back the walk.",
-      "cta": "Follow @crownandcanvas for daily pet answers",
-      "image": "/portraits/military-pilot/after.webp",
-      "status": "pending",
-      "postedAt": null
-    },
-    {
       "id": "how-long-train-recall",
       "category": "Training",
       "question": "How do I teach a reliable recall?",
@@ -210,17 +243,6 @@
       "postedAt": null
     },
     {
-      "id": "how-many-treats-okay",
-      "category": "Nutrition",
-      "question": "How many treats are too many?",
-      "answer": "Keep treats under 10% of daily calories. The rest should come from balanced meals.",
-      "hook": "The 10% rule.",
-      "cta": "Follow @crownandcanvas for daily pet answers",
-      "image": "/portraits/modern-astronaut/after.webp",
-      "status": "pending",
-      "postedAt": null
-    },
-    {
       "id": "can-dogs-eat-peanut-butter",
       "category": "Nutrition",
       "question": "Can dogs eat peanut butter?",
@@ -239,17 +261,6 @@
       "hook": "Professional napper.",
       "cta": "Follow @crownandcanvas for daily pet answers",
       "image": "/portraits/fantasy-wizard/after.webp",
-      "status": "pending",
-      "postedAt": null
-    },
-    {
-      "id": "why-cat-sleeps-weird-positions",
-      "category": "Is this normal?",
-      "question": "Why does my cat sleep in such weird positions?",
-      "answer": "Totally normal. Cats are flexible and only contort like that when they feel completely safe.",
-      "hook": "How is that comfortable?",
-      "cta": "Follow @crownandcanvas for daily pet answers",
-      "image": "/portraits/royalty-princess/after.webp",
       "status": "pending",
       "postedAt": null
     },
@@ -294,17 +305,6 @@
       "hook": "Keeping them close.",
       "cta": "Follow @crownandcanvas for daily pet answers",
       "image": "/portraits/royalty-empress/after.webp",
-      "status": "pending",
-      "postedAt": null
-    },
-    {
-      "id": "best-gift-for-pet-lover",
-      "category": "Gifting & keepsakes",
-      "question": "What's the best gift for a pet lover?",
-      "answer": "Something personal. A portrait of their pet beats another mug. 65% of these are bought as gifts for a reason.",
-      "hook": "Gift idea that lands.",
-      "cta": "Follow @crownandcanvas for daily pet answers",
-      "image": "/portraits/renaissance-queen/after.webp",
       "status": "pending",
       "postedAt": null
     },
