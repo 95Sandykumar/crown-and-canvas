@@ -36,6 +36,11 @@ const QUEUE_PATH = path.join(ROOT, "content", "instagram-queue.json");
 const OUT_DIR = path.join(ROOT, "out");
 const CLAWDIR = "C:\\Users\\95san\\Documents\\AI & Business\\builder\\claudeclaw";
 const POSTER = path.join(CLAWDIR, "scripts", "post-reel-v3.mjs");
+const ACCOUNT_GUARD = path.join(CLAWDIR, "scripts", "ig-active-account.mjs");
+// HARD GUARD: never post unless the saved browser profile is logged into THIS
+// account. On 2026-06-10 the profile's session had silently become a personal
+// account and a brand reel went out on it.
+const EXPECTED_ACCOUNT = "crownandcanvas.us";
 
 const log = (...a) => console.log("[reel-local]", ...a);
 const fail = (msg) => {
@@ -77,6 +82,48 @@ function buildNeedle(post) {
 const localDay = (d) =>
   new Date(d).toLocaleDateString("en-CA"); // YYYY-MM-DD in local time
 
+// The IG profile is single-instance: stale automation Chromes (playwright-mcp
+// leftovers) hold a lock on it and make puppeteer.launch fail with code 33.
+// Boss's personal Chrome uses a different user-data-dir and is never touched.
+function killStaleProfileChromes() {
+  const ps = spawnSync(
+    "powershell",
+    [
+      "-NoProfile",
+      "-Command",
+      "Get-CimInstance Win32_Process -Filter \"Name='chrome.exe'\" | Where-Object { $_.CommandLine -like '*.playwright-mcp-profile*' } | ForEach-Object { Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue; $_.ProcessId }",
+    ],
+    { encoding: "utf8", timeout: 60_000 }
+  );
+  const pids = (ps.stdout || "").trim();
+  if (pids) {
+    log(`killed stale profile Chrome pids: ${pids.replace(/\s+/g, " ")}`);
+    // Let the profile settle — the next launch does crash-recovery and the IG
+    // UI loads slowly right after a force-kill (caused a composer timeout once).
+    spawnSync(process.execPath, ["-e", "setTimeout(()=>{}, 10000)"], { timeout: 20_000 });
+  }
+}
+
+// Launch v3 with the NEWEST cached Chrome so we never downgrade the profile
+// (a newer automation Chrome may have bumped the profile's "Last Version",
+// and Chrome's downgrade migration is what crashed launches before).
+function newestCachedChrome() {
+  const base = path.join(process.env.USERPROFILE || "", ".cache", "puppeteer", "chrome");
+  try {
+    const dirs = fs.readdirSync(base).filter((d) => d.startsWith("win64-"));
+    dirs.sort((a, b) =>
+      b.replace("win64-", "").localeCompare(a.replace("win64-", ""), undefined, { numeric: true })
+    );
+    for (const d of dirs) {
+      const exe = path.join(base, d, "chrome-win64", "chrome.exe");
+      if (fs.existsSync(exe)) return exe;
+    }
+  } catch {
+    /* fall through — puppeteer resolves its own default */
+  }
+  return null;
+}
+
 function main() {
   if (!fs.existsSync(POSTER)) fail(`poster not found: ${POSTER}`);
 
@@ -95,6 +142,27 @@ function main() {
   const remaining = pendingCount(queue.posts);
   log(`next post: ${post.id} (${remaining} pending)`);
   if (remaining < 3) log("WARNING: backlog running low (<3) — refill the queue");
+
+  // 0. Account guard — fail fast BEFORE rendering or posting anything.
+  killStaleProfileChromes();
+  const chromeExe = newestCachedChrome();
+  if (chromeExe) log(`using chrome: ${chromeExe}`);
+  log(`verifying the profile is logged into @${EXPECTED_ACCOUNT} ...`);
+  const guard = spawnSync(process.execPath, [ACCOUNT_GUARD, EXPECTED_ACCOUNT], {
+    cwd: CLAWDIR,
+    encoding: "utf8",
+    timeout: 3 * 60_000,
+    env: chromeExe
+      ? { ...process.env, PUPPETEER_EXECUTABLE_PATH: chromeExe }
+      : process.env,
+  });
+  process.stdout.write(guard.stdout || "");
+  if (guard.status !== 0) {
+    fail(
+      `profile is NOT logged into @${EXPECTED_ACCOUNT} (${(guard.stdout || "").trim() || "guard errored"}) — ` +
+        "refusing to post. Log the automation profile into the brand account, then this resumes automatically."
+    );
+  }
 
   // 1. Render (no secrets needed; leaves the queue untouched).
   log("rendering via post-instagram.mjs --render-only ...");
@@ -115,20 +183,39 @@ function main() {
   //    resolves and store/ screenshots land there).
   const caption = buildCaption(post);
   const needle = buildNeedle(post);
-  log(`posting (verify needle: "${needle}") ...`);
-  const poster = spawnSync(
-    process.execPath,
-    [POSTER, videoPath, caption, needle],
-    { cwd: CLAWDIR, encoding: "utf8", timeout: 15 * 60_000 }
-  );
-  process.stdout.write(poster.stdout || "");
-  process.stderr.write(poster.stderr || "");
+  const runPoster = () => {
+    const r = spawnSync(process.execPath, [POSTER, videoPath, caption, needle], {
+      cwd: CLAWDIR,
+      encoding: "utf8",
+      timeout: 15 * 60_000,
+      env: chromeExe
+        ? { ...process.env, PUPPETEER_EXECUTABLE_PATH: chromeExe }
+        : process.env,
+    });
+    process.stdout.write(r.stdout || "");
+    process.stderr.write(r.stderr || "");
+    return r.stdout || "";
+  };
 
-  const out = poster.stdout || "";
+  log(`posting (verify needle: "${needle}") ...`);
+  let out = runPoster();
+  // Retry once ONLY if the publish button was never clicked (transient UI
+  // slowness, e.g. right after a profile crash-recovery). If the click DID
+  // happen, never retry — the reel may be live and a retry would double-post.
+  if (!/POSTED ✅|confirmed: shared/.test(out) && !/Publish click: clicked/.test(out)) {
+    log("poster failed before the publish click — retrying once in 30s ...");
+    spawnSync(process.execPath, ["-e", "setTimeout(()=>{}, 30000)"], { timeout: 40_000 });
+    out = runPoster();
+  }
+
   const urlMatch = out.match(/POSTED ✅ (\S+)/);
   const sharedConfirmed = /confirmed: shared/.test(out);
   if (!urlMatch && !sharedConfirmed) {
-    fail("poster did not confirm the share — queue left untouched (NOT marked posted)");
+    fail(
+      /Publish click: clicked/.test(out)
+        ? "publish was clicked but the share was not confirmed — CHECK THE PROFILE MANUALLY before assuming it failed; queue NOT marked"
+        : "poster did not confirm the share — queue left untouched (NOT marked posted)"
+    );
   }
   const liveUrl = urlMatch ? urlMatch[1] : "(shared; URL not confirmed yet)";
   log(`posted: ${liveUrl}`);
