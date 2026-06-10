@@ -1,0 +1,94 @@
+# DISABLED GitHub Actions workflow — kept as reference only (2026-06-10).
+#
+# This was .github/workflows/instagram-post.yml. It never ran:
+#   1. It was never pushed to origin/master (the push credential lacks the
+#      `workflow` OAuth scope, so pushes containing .github/workflows/* are
+#      rejected by GitHub).
+#   2. Its Graph API path needs secrets (IG_USER_ID, IG_ACCESS_TOKEN,
+#      BLOB_READ_WRITE_TOKEN) that were never created — no IG Business
+#      account / Meta app exists.
+#
+# Daily posting now runs LOCALLY via PM2 cron "crown-ig-reel"
+# -> scripts/post-reel-local.mjs (browser automation, saved IG session).
+#
+# To resurrect the CI path: create the Meta app + secrets, run
+# `gh auth refresh -s workflow` once, then move this file back to
+# .github/workflows/instagram-post.yml and re-enable the schedule block.
+
+name: Instagram daily reel
+
+# Posts ONE pending reel per day from content/instagram-queue.json.
+# Cadence is controlled entirely by this cron (the script renders 1 reel/run).
+#
+# IMPORTANT: GitHub only runs `schedule:` triggers from the workflow file on the
+# DEFAULT branch (master). This must be merged to master to activate.
+#
+# Required repo secrets (Settings > Secrets and variables > Actions):
+#   IG_USER_ID            Instagram Business account id (numeric)
+#   IG_ACCESS_TOKEN       long-lived Graph API token (~60 days, refreshable)
+#   BLOB_READ_WRITE_TOKEN Vercel Blob token (hosts the public video URL)
+#
+# Manual dry-run: Actions tab > "Instagram daily reel" > Run workflow.
+
+on:
+  # schedule:
+  #   # 22:00 UTC daily = 5pm US Eastern / 2pm US Pacific (strong engagement window).
+  #   - cron: "0 22 * * *"
+  workflow_dispatch:
+    inputs:
+      render_only:
+        description: "Render only (no posting) — leaves the queue untouched"
+        type: boolean
+        default: false
+
+# Never let two runs post at once.
+concurrency:
+  group: instagram-post
+  cancel-in-progress: false
+
+permissions:
+  contents: write # the poster commits the updated queue back to the repo
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        # persist-credentials (default true) lets the script `git push` the queue.
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      # Remotion needs these system libs to launch headless Chromium on Linux.
+      - name: Install Chromium system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libnss3 libdbus-1-3 libatk1.0-0 libgbm1 libasound2t64 \
+            libxrandr2 libxkbcommon0 libxfixes3 libxcomposite1 libxdamage1 \
+            libatk-bridge2.0-0 libpango-1.0-0 libcairo2 libcups2
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Configure git identity
+        run: |
+          git config user.name "crown-and-canvas-bot"
+          git config user.email "bot@crownandcanvas.us"
+
+      - name: Render + post next reel
+        env:
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          BLOB_READ_WRITE_TOKEN: ${{ secrets.BLOB_READ_WRITE_TOKEN }}
+        run: |
+          if [ "${{ inputs.render_only }}" = "true" ]; then
+            node scripts/post-instagram.mjs --render-only
+          else
+            node scripts/post-instagram.mjs
+          fi
