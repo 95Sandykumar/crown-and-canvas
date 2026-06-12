@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { PORTRAIT_STYLES, getStyleBySlug } from "@/data/styles";
 import { formatPrice } from "@/data/products";
 import { ComparisonSlider } from "@/components/ui/comparison-slider";
+import { StyleViewTracker } from "@/components/analytics/style-view-tracker";
 import type { Metadata } from "next";
 
 export function generateStaticParams() {
@@ -68,6 +69,7 @@ export default async function StyleDetailPage({ params }: { params: Promise<{ sl
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
       />
+      <StyleViewTracker styleId={style.id} styleName={style.name} />
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         {/* Back link */}
         <Link

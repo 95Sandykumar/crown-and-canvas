@@ -3,6 +3,7 @@ import Stripe from "stripe";
 import { getStripe } from "@/lib/stripe";
 import { escapeHtml } from "@/lib/security";
 import { recordOrder, type OrderSummaryItem, type OrderPhoto } from "@/lib/orders-db";
+import { sendMetaPurchaseEvent } from "@/lib/meta-capi";
 
 export async function POST(req: NextRequest) {
   const body = await req.text();
@@ -75,6 +76,20 @@ async function handleOrderCompleted(session: Stripe.Checkout.Session) {
     await recordOrder(session, summary, photos);
   } catch (dbErr) {
     console.error("[webhook] recordOrder parse failed (non-fatal):", dbErr);
+  }
+
+  // Server-side Meta Purchase event (Conversions API). Deduped against the
+  // browser pixel via event_id = session.id. No-op until pixel env vars set.
+  try {
+    await sendMetaPurchaseEvent({
+      sessionId: session.id,
+      email: customerEmail || null,
+      amountTotalCents: session.amount_total ?? 0,
+      currency: session.currency ?? "usd",
+      eventSourceUrl: `${process.env.NEXT_PUBLIC_APP_URL || "https://crownandcanvas.us"}/checkout/success`,
+    });
+  } catch (capiErr) {
+    console.error("[webhook] Meta CAPI event failed (non-fatal):", capiErr);
   }
 
   // Parse uploaded pet photo(s) from order metadata to surface in the owner

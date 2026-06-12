@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { CheckCircle, ArrowRight, Mail, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { trackPurchase } from "@/lib/analytics";
 
 interface OrderItem {
   name: string;
@@ -32,7 +33,22 @@ function SuccessContent() {
     fetch(`/api/checkout/session?session_id=${sessionId}`)
       .then((res) => res.json())
       .then((data) => {
-        if (!data.error) setOrder(data);
+        if (!data.error) {
+          setOrder(data);
+
+          // Fire Purchase once per session (guard against refresh/back-nav).
+          // eventId = Stripe session id so Meta dedupes against the
+          // server-side Conversions API event sent from the webhook.
+          const guardKey = `cc-purchase-tracked-${sessionId}`;
+          if (data.amountTotal && !sessionStorage.getItem(guardKey)) {
+            sessionStorage.setItem(guardKey, "1");
+            trackPurchase({
+              valueCents: data.amountTotal,
+              currency: data.currency || "usd",
+              eventId: sessionId,
+            });
+          }
+        }
       })
       .catch(() => {})
       .finally(() => setLoading(false));

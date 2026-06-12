@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { useCart } from "@/hooks/use-cart";
 import { formatPrice } from "@/data/products";
 import { getAttribution } from "@/lib/attribution";
+import { trackInitiateCheckout } from "@/lib/analytics";
 
 const DONATION_OPTIONS = [
   { amount: 0, label: "No thanks" },
@@ -60,6 +61,12 @@ export default function CheckoutPage() {
 
     setLoading(true);
     setError(null);
+
+    trackInitiateCheckout({
+      styleIds: items.map((i) => i.styleId),
+      numItems: items.reduce((sum, i) => sum + i.quantity, 0),
+      valueCents: grandTotal,
+    });
 
     try {
       const res = await fetch("/api/checkout", {

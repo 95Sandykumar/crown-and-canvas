@@ -9,6 +9,7 @@ import { useOrderFlowStore } from "@/stores/order-flow-store";
 import { useCartStore } from "@/stores/cart-store";
 import { getStyleById } from "@/data/styles";
 import { getTierById, getSizeById, ADD_ONS, formatPrice } from "@/data/products";
+import { trackAddToCart } from "@/lib/analytics";
 
 export default function ReviewPage() {
   const router = useRouter();
@@ -53,6 +54,13 @@ export default function ReviewPage() {
       petPhotoUrl: store.petPhotoUrl ?? "",
       priceInCents: size.priceInCents,
       quantity: 1,
+    });
+
+    trackAddToCart({
+      styleId: style.id,
+      styleName: style.name,
+      tierName: tier.name,
+      valueCents: size.priceInCents,
     });
 
     store.reset();
