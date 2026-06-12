@@ -180,6 +180,17 @@ First month realistically lands near breakeven. That is the price of pixel data.
 
 ---
 
+## Campaign Log
+
+**2026-06-12 — Google Ads Performance Max launched (Boss, self-serve).** Channel plan said Meta-first, but Boss started with Google PMax. Live campaign uses:
+- The 50 researched search themes (this doc, section copy in chat; clusters: core product, royal/renaissance, gift intent, memorial, format, occasion)
+- Asset group: 15 headlines / 5 long headlines / 5 descriptions, rewritten to include price anchor ($29.99), 24-48hr delivery, guarantee, gift angle; "10,000 happy pet parents" claim removed as unsubstantiated
+- 12 split-frame before/after ad images generated at `creative/google-ads/` (6 styles x landscape 1200x628 + square 1200x1200)
+- **CRITICAL open item:** GA4 ↔ Google Ads link + import of `purchase` event as Primary conversion. Until done, PMax optimizes for clicks. Boss was given exact steps 2026-06-12.
+- **In progress:** Google Ads API access (manager account + developer token Basic-access application + OAuth). Placeholders in `.env.local` (`GOOGLE_ADS_*`). When filled, build `scripts/google-ads-report.mjs` + PM2 cron for daily spend analysis.
+
+---
+
 ## Sources
 
 Key sources behind the numbers (full list in research agent output, 2026-06-12):
