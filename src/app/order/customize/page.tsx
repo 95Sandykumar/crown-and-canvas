@@ -333,7 +333,7 @@ export default function CustomizePage() {
             <Button
               variant="outline"
               size="lg"
-              onClick={() => router.push("/order/select-style")}
+              onClick={() => router.push("/order/upload")}
               className="flex-1 py-6"
               disabled={adding}
             >

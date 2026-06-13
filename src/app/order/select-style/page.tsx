@@ -28,8 +28,8 @@ export default function SelectStylePage() {
       return;
     }
     setStyle(selected);
-    goToStep("customize");
-    router.push("/order/customize");
+    goToStep("upload");
+    router.push("/order/upload");
   };
 
   return (
@@ -123,7 +123,7 @@ export default function SelectStylePage() {
             <Button
               variant="outline"
               size="lg"
-              onClick={() => router.push("/order/upload")}
+              onClick={() => router.push("/")}
               className="flex-1 py-6"
             >
               Back
@@ -133,7 +133,7 @@ export default function SelectStylePage() {
               size="lg"
               className="flex-[2] bg-royal hover:bg-royal-dark text-white py-6 text-base gap-2"
             >
-              Continue to Customize <ArrowRight className="h-4 w-4" />
+              Continue to Upload Photo <ArrowRight className="h-4 w-4" />
             </Button>
           </div>
         </div>

@@ -36,7 +36,7 @@ export function HeroSection() {
             </p>
 
             <div className="flex flex-col gap-3 sm:flex-row sm:justify-center lg:justify-start">
-              <Link href="/order/upload">
+              <Link href="/order/select-style">
                 <Button size="lg" className="w-full sm:w-auto bg-royal hover:bg-royal-dark text-white text-base px-8 py-6 gap-2">
                   Create Your Portrait
                   <ArrowRight className="h-4 w-4" />

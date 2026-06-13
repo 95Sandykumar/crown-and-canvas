@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useState, useRef, useCallback } from "react";
+import { Suspense, useState, useRef, useCallback, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { Upload, X, Camera, AlertCircle } from "lucide-react";
@@ -14,7 +14,7 @@ function UploadPageContent() {
   const searchParams = useSearchParams();
   const preselectedStyle = searchParams.get("style");
 
-  const { petName, petPhotoUrl, setPetName, setPetPhoto, setStyle, goToStep } =
+  const { petName, petPhotoUrl, selectedStyleId, setPetName, setPetPhoto, setStyle, goToStep } =
     useOrderFlowStore();
 
   const [preview, setPreview] = useState<string | null>(petPhotoUrl);
@@ -22,6 +22,18 @@ function UploadPageContent() {
   const [error, setError] = useState<string | null>(null);
   const [dragOver, setDragOver] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Style-first flow: a style must be chosen before uploading. Honor a
+  // deep-linked ?style= (from a style detail page) by selecting it; if no style
+  // is set at all (e.g. an old "/order/upload" entry link), send the customer to
+  // pick one first so they never land here without a style.
+  useEffect(() => {
+    if (preselectedStyle) {
+      setStyle(preselectedStyle);
+    } else if (!selectedStyleId) {
+      router.replace("/order/select-style");
+    }
+  }, [preselectedStyle, selectedStyleId, setStyle, router]);
 
   const handleFile = useCallback((file: File) => {
     setError(null);
@@ -65,14 +77,10 @@ function UploadPageContent() {
     // given (most do, it's the emotional hook) and fall back to "Your pet"
     // downstream when it's blank.
     setPetName(name.trim());
-    if (preselectedStyle) {
-      setStyle(preselectedStyle);
-      goToStep("customize");
-      router.push("/order/customize");
-    } else {
-      goToStep("select-style");
-      router.push("/order/select-style");
-    }
+    // Style is already chosen (picked on the previous step, or set from ?style=
+    // by the guard above), so go straight to customize.
+    goToStep("customize");
+    router.push("/order/customize");
   };
 
   return (
@@ -193,13 +201,23 @@ function UploadPageContent() {
           )}
 
           {/* Continue */}
-          <Button
-            onClick={handleContinue}
-            size="lg"
-            className="w-full bg-royal hover:bg-royal-dark text-white py-6 text-base"
-          >
-            Continue to {preselectedStyle ? "Customize" : "Choose Style"}
-          </Button>
+          <div className="flex gap-3">
+            <Button
+              variant="outline"
+              size="lg"
+              onClick={() => router.push("/order/select-style")}
+              className="flex-1 py-6"
+            >
+              Back
+            </Button>
+            <Button
+              onClick={handleContinue}
+              size="lg"
+              className="flex-[2] bg-royal hover:bg-royal-dark text-white py-6 text-base"
+            >
+              Continue to Customize
+            </Button>
+          </div>
         </div>
       </div>
     </div>

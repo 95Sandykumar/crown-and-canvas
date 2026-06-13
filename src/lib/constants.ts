@@ -10,8 +10,11 @@ export const NAV_LINKS = [
   { label: "FAQ", href: "/faq" },
 ] as const;
 
+// Style-first flow (matches Crown & Paw / West & Willow): choosing the style is
+// the aspirational, commitment-building step, so it comes before the photo-upload
+// chore. This lifts completion vs. asking for the upload first.
 export const ORDER_STEPS = [
-  { id: "upload" as const, label: "Upload Photo", step: 1 },
-  { id: "select-style" as const, label: "Choose Style", step: 2 },
+  { id: "select-style" as const, label: "Choose Style", step: 1 },
+  { id: "upload" as const, label: "Upload Photo", step: 2 },
   { id: "customize" as const, label: "Customize", step: 3 },
 ] as const;

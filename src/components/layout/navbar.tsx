@@ -38,7 +38,7 @@ export function Navbar() {
 
         {/* Actions */}
         <div className="flex items-center gap-3">
-          <Link href="/order/upload">
+          <Link href="/order/select-style">
             <Button size="sm" className="hidden sm:inline-flex bg-royal hover:bg-royal-dark text-white">
               Create Portrait
             </Button>
@@ -78,7 +78,7 @@ export function Navbar() {
                 {link.label}
               </Link>
             ))}
-            <Link href="/order/upload" onClick={() => setMobileOpen(false)}>
+            <Link href="/order/select-style" onClick={() => setMobileOpen(false)}>
               <Button className="mt-2 w-full bg-royal hover:bg-royal-dark text-white">
                 Create Portrait
               </Button>

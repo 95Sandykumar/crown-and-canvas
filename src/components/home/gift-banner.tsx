@@ -20,7 +20,7 @@ export function GiftBanner() {
               and a personalized note to make it extra special.
             </p>
           </div>
-          <Link href="/order/upload">
+          <Link href="/order/select-style">
             <Button size="lg" className="bg-gold hover:bg-gold-light text-charcoal text-base font-semibold px-8 py-6 gap-2">
               Send a Gift <ArrowRight className="h-4 w-4" />
             </Button>

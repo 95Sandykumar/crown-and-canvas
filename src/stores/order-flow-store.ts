@@ -26,7 +26,7 @@ const initialState: OrderFlowState = {
   giftWrapping: false,
   giftNote: "",
   rushProcessing: false,
-  currentStep: "upload",
+  currentStep: "select-style",
 };
 
 export const useOrderFlowStore = create<OrderFlowState & OrderFlowActions>()(
