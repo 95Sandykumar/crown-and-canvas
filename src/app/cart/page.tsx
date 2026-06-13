@@ -78,7 +78,7 @@ export default function CartPage() {
                     <div>
                       <p className="font-semibold text-charcoal">{item.styleName}</p>
                       <p className="text-sm text-charcoal/50">
-                        {item.petName} &middot; {item.tierName} &middot; {item.sizeLabel}
+                        {item.petName || "Your pet"} &middot; {item.tierName} &middot; {item.sizeLabel}
                       </p>
                     </div>
                     <button

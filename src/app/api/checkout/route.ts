@@ -16,7 +16,7 @@ const CheckoutItemSchema = z.object({
   tierName: z.string().min(1).max(100),
   sizeId: z.string().min(1).max(50),
   sizeLabel: z.string().min(1).max(50),
-  petName: z.string().min(1).max(100),
+  petName: z.string().max(100), // Optional — falls back to "Your pet" downstream
   petPhotoUrl: z.string().min(1).max(15_000_000), // ~10MB base64
   priceInCents: z.number(), // Ignored — we look up server-side
   quantity: z.number().int().min(1).max(10),
@@ -87,12 +87,13 @@ export async function POST(req: NextRequest) {
         );
       }
 
+      const petLabel = item.petName.trim() || "Your pet";
       lineItems.push({
         price_data: {
           currency: "usd",
           product_data: {
             name: `${style.name} Pet Portrait`,
-            description: `${tier.name} — ${size.label} | Pet: ${item.petName}`,
+            description: `${tier.name} - ${size.label} | Pet: ${petLabel}`,
           },
           unit_amount: size.priceInCents, // SERVER-AUTHORITATIVE PRICE
         },
@@ -155,7 +156,7 @@ export async function POST(req: NextRequest) {
       orderDataItems.push({
         p: photoUrl,
         s: item.styleId,
-        n: item.petName,
+        n: item.petName.trim() || "Your pet",
       });
     }
 
@@ -192,7 +193,7 @@ export async function POST(req: NextRequest) {
         style: item.styleName,
         tier: tier?.name || item.tierName,
         size: size?.label || item.sizeLabel,
-        pet: item.petName,
+        pet: item.petName.trim() || "Your pet",
         qty: item.quantity,
       };
     });

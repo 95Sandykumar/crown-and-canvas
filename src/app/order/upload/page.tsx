@@ -60,11 +60,10 @@ function UploadPageContent() {
       setError("Please upload a photo of your pet.");
       return;
     }
-    if (!name.trim()) {
-      setError("Please enter your pet's name.");
-      return;
-    }
 
+    // Pet name is optional — don't block the order on it. We capture it when
+    // given (most do, it's the emotional hook) and fall back to "Your pet"
+    // downstream when it's blank.
     setPetName(name.trim());
     if (preselectedStyle) {
       setStyle(preselectedStyle);
@@ -174,7 +173,7 @@ function UploadPageContent() {
           {/* Pet name */}
           <div className="space-y-2">
             <label htmlFor="petName" className="text-sm font-medium text-charcoal">
-              Your Pet&apos;s Name
+              Your Pet&apos;s Name <span className="font-normal text-charcoal/40">(optional)</span>
             </label>
             <Input
               id="petName"
