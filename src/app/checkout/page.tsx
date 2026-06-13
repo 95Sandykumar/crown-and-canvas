@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Lock, CreditCard, AlertCircle, Heart, PawPrint } from "lucide-react";
@@ -24,23 +24,26 @@ export default function CheckoutPage() {
   const { items, subtotal, clearCart, isHydrated, giftWrapping, rushProcessing } = useCart();
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
-  const [donationCents, setDonationCents] = useState(500); // Default $5 selected
+  const [donationCents, setDonationCents] = useState(0); // Opt-in, not pre-charged
   const [customDonation, setCustomDonation] = useState("");
   const [showCustom, setShowCustom] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  if (!isHydrated) {
+  // Redirect to the cart if it's empty (after hydration), without navigating
+  // during render.
+  useEffect(() => {
+    if (isHydrated && items.length === 0) {
+      router.replace("/cart");
+    }
+  }, [isHydrated, items.length, router]);
+
+  if (!isHydrated || items.length === 0) {
     return (
       <div className="bg-cream min-h-screen flex items-center justify-center">
         <div className="h-8 w-8 animate-spin rounded-full border-4 border-royal border-t-transparent" />
       </div>
     );
-  }
-
-  if (items.length === 0) {
-    router.push("/cart");
-    return null;
   }
 
   const effectiveDonation = showCustom

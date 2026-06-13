@@ -55,7 +55,7 @@ export interface CartItem {
   quantity: number;
 }
 
-export type OrderStep = "upload" | "select-style" | "customize" | "review";
+export type OrderStep = "upload" | "select-style" | "customize";
 
 export interface OrderFlowState {
   petName: string;

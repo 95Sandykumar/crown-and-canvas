@@ -32,7 +32,18 @@ export const useCartStore = create<CartState>()(
         set((state) => ({ items: [...state.items, item] })),
 
       removeItem: (itemId) =>
-        set((state) => ({ items: state.items.filter((i) => i.id !== itemId) })),
+        set((state) => {
+          const items = state.items.filter((i) => i.id !== itemId);
+          // Add-ons are cart-level and only apply to physical products. If no
+          // physical item remains, drop them so a leftover digital item is never
+          // charged for gift wrapping or rush shipping.
+          const hasPhysical = items.some(
+            (i) => i.tierId === "canvas" || i.tierId === "framed"
+          );
+          return hasPhysical
+            ? { items }
+            : { items, giftWrapping: false, giftNote: "", rushProcessing: false };
+        }),
 
       updateQuantity: (itemId, quantity) =>
         set((state) => ({

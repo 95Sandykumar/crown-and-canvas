@@ -1,23 +1,42 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowRight, AlertCircle, Gift, Zap, Check } from "lucide-react";
+import { ShoppingCart, AlertCircle, Gift, Zap, Check, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { OrderStepper } from "@/components/layout/order-stepper";
 import { useOrderFlowStore } from "@/stores/order-flow-store";
+import { useCartStore } from "@/stores/cart-store";
 import { PRODUCT_TIERS, ADD_ONS, formatPrice, getSizeById } from "@/data/products";
 import { getStyleById } from "@/data/styles";
+import { trackAddToCart } from "@/lib/analytics";
 
 export default function CustomizePage() {
   const router = useRouter();
   const store = useOrderFlowStore();
+  const addItem = useCartStore((s) => s.addItem);
+  const setCartGiftWrapping = useCartStore((s) => s.setGiftWrapping);
+  const setCartGiftNote = useCartStore((s) => s.setGiftNote);
+  const setCartRushProcessing = useCartStore((s) => s.setRushProcessing);
   const [error, setError] = useState<string | null>(null);
+  const [adding, setAdding] = useState(false);
+  // Set once we start adding to cart so the missing-photo guard below doesn't
+  // bounce to /upload when store.reset() nulls the photo just before /cart.
+  const submittingRef = useRef(false);
 
   const selectedStyle = store.selectedStyleId
     ? getStyleById(store.selectedStyleId)
     : null;
+
+  // A refresh strips the pet photo from session storage (it is never persisted),
+  // which would let an order proceed with no photo to fulfill. Send the customer
+  // back to the upload step to re-add it.
+  useEffect(() => {
+    if (!store.petPhotoUrl && !submittingRef.current) {
+      router.replace("/order/upload");
+    }
+  }, [store.petPhotoUrl, router]);
 
   const selectedTier = store.selectedTierId
     ? PRODUCT_TIERS.find((t) => t.id === store.selectedTierId)
@@ -41,19 +60,6 @@ export default function CustomizePage() {
     }
   };
 
-  const handleContinue = () => {
-    if (!store.selectedTierId) {
-      setError("Please select a product type.");
-      return;
-    }
-    if (!store.selectedSizeId) {
-      setError("Please select a size.");
-      return;
-    }
-    store.goToStep("review");
-    router.push("/order/review");
-  };
-
   const selectedSize = store.selectedTierId && store.selectedSizeId
     ? getSizeById(store.selectedTierId, store.selectedSizeId)
     : null;
@@ -61,6 +67,76 @@ export default function CustomizePage() {
   let total = selectedSize?.priceInCents ?? 0;
   if (isPhysical && store.giftWrapping) total += ADD_ONS.giftWrapping.priceInCents;
   if (isPhysical && store.rushProcessing) total += ADD_ONS.rushProcessing.priceInCents;
+
+  const handleAddToCart = async () => {
+    if (!store.selectedTierId || !selectedTier) {
+      setError("Please select a product type.");
+      return;
+    }
+    if (!store.selectedSizeId || !selectedSize) {
+      setError("Please select a size.");
+      return;
+    }
+    if (!selectedStyle || !store.petPhotoUrl) {
+      router.replace("/order/upload");
+      return;
+    }
+
+    setAdding(true);
+    setError(null);
+    submittingRef.current = true;
+
+    // Upload the photo to Blob now so the cart stores a small URL, not a
+    // multi-MB base64 string. Fall back to the raw data URL if upload fails
+    // (e.g. Blob not configured locally) — checkout uploads it as a backstop.
+    let photoUrl = store.petPhotoUrl;
+    if (photoUrl.startsWith("data:")) {
+      try {
+        const res = await fetch("/api/upload", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ dataUrl: photoUrl }),
+        });
+        const data = await res.json();
+        if (res.ok && data.url) photoUrl = data.url;
+      } catch {
+        // keep the base64 data URL as a fallback
+      }
+    }
+
+    addItem({
+      id: `${selectedStyle.id}-${selectedTier.id}-${selectedSize.id}-${Date.now()}`,
+      styleId: selectedStyle.id,
+      styleName: selectedStyle.name,
+      stylePreview: selectedStyle.previewImage,
+      tierId: selectedTier.id,
+      tierName: selectedTier.name,
+      sizeId: selectedSize.id,
+      sizeLabel: selectedSize.label,
+      petName: store.petName,
+      petPhotoUrl: photoUrl,
+      priceInCents: selectedSize.priceInCents,
+      quantity: 1,
+    });
+
+    // Carry add-ons into the cart (cart-level). Only physical items set them so a
+    // digital add-on selection can't wipe gift wrapping chosen for a canvas item.
+    if (isPhysical) {
+      setCartGiftWrapping(store.giftWrapping);
+      setCartGiftNote(store.giftNote);
+      setCartRushProcessing(store.rushProcessing);
+    }
+
+    trackAddToCart({
+      styleId: selectedStyle.id,
+      styleName: selectedStyle.name,
+      tierName: selectedTier.name,
+      valueCents: selectedSize.priceInCents,
+    });
+
+    store.reset();
+    router.push("/cart");
+  };
 
   return (
     <div className="bg-cream min-h-screen">
@@ -259,15 +335,25 @@ export default function CustomizePage() {
               size="lg"
               onClick={() => router.push("/order/select-style")}
               className="flex-1 py-6"
+              disabled={adding}
             >
               Back
             </Button>
             <Button
-              onClick={handleContinue}
+              onClick={handleAddToCart}
               size="lg"
+              disabled={adding}
               className="flex-[2] bg-royal hover:bg-royal-dark text-white py-6 text-base gap-2"
             >
-              Review Order <ArrowRight className="h-4 w-4" />
+              {adding ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin" /> Adding...
+                </>
+              ) : (
+                <>
+                  Add to Cart <ShoppingCart className="h-4 w-4" />
+                </>
+              )}
             </Button>
           </div>
         </div>

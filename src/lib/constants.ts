@@ -14,5 +14,4 @@ export const ORDER_STEPS = [
   { id: "upload" as const, label: "Upload Photo", step: 1 },
   { id: "select-style" as const, label: "Choose Style", step: 2 },
   { id: "customize" as const, label: "Customize", step: 3 },
-  { id: "review" as const, label: "Review", step: 4 },
 ] as const;
