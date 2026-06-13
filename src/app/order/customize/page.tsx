@@ -19,6 +19,28 @@ export default function CustomizePage() {
     ? getStyleById(store.selectedStyleId)
     : null;
 
+  const selectedTier = store.selectedTierId
+    ? PRODUCT_TIERS.find((t) => t.id === store.selectedTierId)
+    : null;
+
+  // Digital downloads have nothing to size, wrap, or rush-ship: they are a
+  // single high-res file delivered instantly by email. Size selection and the
+  // physical add-ons only apply to canvas and framed products.
+  const isPhysical = selectedTier ? selectedTier.type !== "digital" : false;
+
+  const handleSelectTier = (tier: (typeof PRODUCT_TIERS)[number]) => {
+    store.setTier(tier.id);
+    setError(null);
+    if (tier.type === "digital") {
+      // Auto-select the only size and clear physical-only add-ons so they don't
+      // carry over from a previously selected canvas/framed tier.
+      store.setSize(tier.sizes[0].id);
+      store.setGiftWrapping(false);
+      store.setGiftNote("");
+      store.setRushProcessing(false);
+    }
+  };
+
   const handleContinue = () => {
     if (!store.selectedTierId) {
       setError("Please select a product type.");
@@ -37,8 +59,8 @@ export default function CustomizePage() {
     : null;
 
   let total = selectedSize?.priceInCents ?? 0;
-  if (store.giftWrapping) total += ADD_ONS.giftWrapping.priceInCents;
-  if (store.rushProcessing) total += ADD_ONS.rushProcessing.priceInCents;
+  if (isPhysical && store.giftWrapping) total += ADD_ONS.giftWrapping.priceInCents;
+  if (isPhysical && store.rushProcessing) total += ADD_ONS.rushProcessing.priceInCents;
 
   return (
     <div className="bg-cream min-h-screen">
@@ -67,7 +89,7 @@ export default function CustomizePage() {
                 return (
                   <button
                     key={tier.id}
-                    onClick={() => { store.setTier(tier.id); setError(null); }}
+                    onClick={() => handleSelectTier(tier)}
                     className={`relative rounded-xl p-5 text-left transition-all ${
                       isSelected
                         ? "bg-white ring-2 ring-royal shadow-lg"
@@ -110,8 +132,20 @@ export default function CustomizePage() {
             </div>
           </div>
 
-          {/* Size selector */}
-          {store.selectedTierId && (
+          {/* Digital delivery note — no size to choose */}
+          {selectedTier && !isPhysical && (
+            <div className="rounded-xl bg-white border border-border/40 p-4 flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-royal/10 flex-shrink-0">
+                <Check className="h-5 w-5 text-royal" />
+              </div>
+              <p className="text-sm text-charcoal/70">
+                Your high-resolution file is delivered instantly by email. No size, wrapping, or shipping needed.
+              </p>
+            </div>
+          )}
+
+          {/* Size selector — physical products only */}
+          {isPhysical && (
             <div className="space-y-3">
               <h2 className="text-lg font-semibold text-charcoal">Select Size</h2>
               <div className="grid gap-3 sm:grid-cols-3">
@@ -141,7 +175,8 @@ export default function CustomizePage() {
             </div>
           )}
 
-          {/* Add-ons */}
+          {/* Add-ons — physical products only (digital has nothing to wrap or rush-ship) */}
+          {isPhysical && (
           <div className="space-y-4">
             <h2 className="text-lg font-semibold text-charcoal">Add-ons</h2>
 
@@ -197,6 +232,7 @@ export default function CustomizePage() {
               <p className="font-semibold text-charcoal">+{formatPrice(ADD_ONS.rushProcessing.priceInCents)}</p>
             </button>
           </div>
+          )}
 
           {/* Running total */}
           {selectedSize && (
