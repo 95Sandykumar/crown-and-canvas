@@ -38,6 +38,17 @@ export default function CustomizePage() {
     }
   }, [store.petPhotoUrl, router]);
 
+  // AOV anchor: default to Premium Canvas (12x16) so the recommended path is the
+  // physical product, not the $29.99 digital. Only applies when nothing is chosen
+  // yet — a customer can still pick any tier (incl. digital) freely.
+  useEffect(() => {
+    if (!store.selectedTierId) {
+      store.setTier("canvas");
+      store.setSize("canvas-12x16");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const selectedTier = store.selectedTierId
     ? PRODUCT_TIERS.find((t) => t.id === store.selectedTierId)
     : null;
@@ -175,7 +186,7 @@ export default function CustomizePage() {
                     {tier.id === "canvas" && (
                       <div className="absolute -top-2.5 left-1/2 -translate-x-1/2">
                         <span className="rounded-full bg-gold px-3 py-0.5 text-[10px] font-bold text-charcoal">
-                          Best Value
+                          Most Popular
                         </span>
                       </div>
                     )}
